@@ -62,6 +62,7 @@ namespace GameUtil
 
         private void DoTweenInternal(SingleTween[] tweens, UnityEvent beforeEvent, bool isExecute, UnityEvent afterEvent, Action action)
         {
+            float lastTweenInsertTime = 0;
             mSequence?.Kill();
             mSequence = null;
             if (tweens.Length > 0)
@@ -69,9 +70,31 @@ namespace GameUtil
                 mSequence = DOTween.Sequence();
                 foreach (var tween in tweens)
                 {
-                    if (tween.Delay > 0)
+                    if (tween.IsDelay && tween.Delay > 0)
                         mSequence.AppendInterval(tween.Delay);
-                    mSequence.AppendCallback(tween.SetStartStatus).Append(tween.BuildTween());
+                    else
+                    {
+                        switch (tween.TweenerLinkType)
+                        {
+                            case SingleTween.LinkType.Append:
+                                lastTweenInsertTime = mSequence.Duration(false);
+                                if (tween.OverrideStartStatus)
+                                    mSequence.AppendCallback(tween.SetStartStatus);
+                                mSequence.Append(tween.BuildTween());
+                                break;
+                            case SingleTween.LinkType.Join:
+                                if (tween.OverrideStartStatus)
+                                    mSequence.InsertCallback(lastTweenInsertTime, tween.SetStartStatus);
+                                mSequence.Join(tween.BuildTween());
+                                break;
+                            case SingleTween.LinkType.Insert:
+                                lastTweenInsertTime = tween.AtPosition;
+                                if (tween.OverrideStartStatus)
+                                    mSequence.InsertCallback(lastTweenInsertTime, tween.SetStartStatus);
+                                mSequence.Insert(lastTweenInsertTime, tween.BuildTween());
+                                break;
+                        }
+                    }
                 }
 
                 mSequence.AppendCallback(() =>

@@ -16,15 +16,27 @@ namespace GameUtil
             ImageTween,
             TextTween,
             TextMeshPropTween,
-            CanvasTween
+            CanvasTween,
         }
         
+        public enum LinkType
+        {
+            Append,
+            Join,
+            Insert
+        }
+
+        [Tooltip("Special. Do nothing except delay")]
+        public bool IsDelay;
         public float Delay;
         public float Duration;
         public bool UseCurve;
         public AnimationCurve Curve = AnimationCurve.Linear(0, 0, 1, 1);
         public Ease EaseType = Ease.OutQuad;
+        public LinkType TweenerLinkType;
+        public float AtPosition;
         public TweenType Mode;
+        public bool OverrideStartStatus;
         public Vector3 StartPos;
         public Vector3 EndPos;
         public Vector3 StartScale;
@@ -101,6 +113,7 @@ namespace GameUtil
 
         public void SetStartStatus()
         {
+            if(!OverrideStartStatus) return;
             switch (Mode)
             {
                 case TweenType.ImageTween:
