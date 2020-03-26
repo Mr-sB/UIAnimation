@@ -29,6 +29,11 @@ namespace GameUtil.Editor
             var tweenerLinkType = property.FindPropertyRelative(nameof(SingleTween.TweenerLinkType));
             var atPosition = property.FindPropertyRelative(nameof(SingleTween.AtPosition));
             var mode = property.FindPropertyRelative(nameof(SingleTween.Mode));
+            var transform = property.FindPropertyRelative(nameof(SingleTween.Transform));
+            var image = property.FindPropertyRelative(nameof(SingleTween.Image));
+            var text = property.FindPropertyRelative(nameof(SingleTween.Text));
+            var textMeshProUGUI = property.FindPropertyRelative(nameof(SingleTween.TextMeshProUGUI));
+            var canvasGroup = property.FindPropertyRelative(nameof(SingleTween.CanvasGroup));
             var overrideStartStatus = property.FindPropertyRelative(nameof(SingleTween.OverrideStartStatus));
             var startPos = property.FindPropertyRelative(nameof(SingleTween.StartPos));
             var endPos = property.FindPropertyRelative(nameof(SingleTween.EndPos));
@@ -48,55 +53,79 @@ namespace GameUtil.Editor
             else
             {
                 position = GetSingleLine(position);
-            EditorGUI.PropertyField(position, duration);
-            position = GetSingleLine(position);
-            EditorGUI.PropertyField(position, useCurve);
-            position = GetSingleLine(position);
-            EditorGUI.PropertyField(position, useCurve.boolValue ? curve : easeType);
-            position = GetSingleLine(position);
-            EditorGUI.PropertyField(position, tweenerLinkType);
-            if ((SingleTween.LinkType) tweenerLinkType.intValue == SingleTween.LinkType.Insert)
-            {
+                EditorGUI.PropertyField(position, duration);
                 position = GetSingleLine(position);
-                EditorGUI.PropertyField(position, atPosition);
-            }
-            position = GetSingleLine(position);
-            EditorGUI.PropertyField(position, mode);
-            position = GetSingleLine(position);
-            EditorGUI.PropertyField(position, overrideStartStatus);
-            switch ((SingleTween.TweenType)mode.intValue)
-            {
-                case SingleTween.TweenType.MoveTween:
-                    if (overrideStartStatus.boolValue)
-                    {
-                        position = GetSingleLine(position);
-                        EditorGUI.PropertyField(position, startPos);
-                    }
+                EditorGUI.PropertyField(position, useCurve);
+                position = GetSingleLine(position);
+                EditorGUI.PropertyField(position, useCurve.boolValue ? curve : easeType);
+                position = GetSingleLine(position);
+                EditorGUI.PropertyField(position, tweenerLinkType);
+                if ((SingleTween.LinkType) tweenerLinkType.intValue == SingleTween.LinkType.Insert)
+                {
                     position = GetSingleLine(position);
-                    EditorGUI.PropertyField(position, endPos);
-                    break;
-                case SingleTween.TweenType.ScaleTween:
-                    if (overrideStartStatus.boolValue)
-                    {
+                    EditorGUI.PropertyField(position, atPosition);
+                }
+
+                position = GetSingleLine(position);
+                EditorGUI.PropertyField(position, mode);
+                
+                switch ((SingleTween.TweenType) mode.intValue)
+                {
+                    case SingleTween.TweenType.MoveTween:
                         position = GetSingleLine(position);
-                        EditorGUI.PropertyField(position, startScale);
-                    }
-                    position = GetSingleLine(position);
-                    EditorGUI.PropertyField(position, endScale);
-                    break;
-                case SingleTween.TweenType.ImageTween:
-                case SingleTween.TweenType.TextTween:
-                case SingleTween.TweenType.TextMeshPropTween:
-                case SingleTween.TweenType.CanvasTween:
-                    if (overrideStartStatus.boolValue)
-                    {
+                        EditorGUI.PropertyField(position, transform);
                         position = GetSingleLine(position);
-                        EditorGUI.PropertyField(position, startAlpha);
-                    }
-                    position = GetSingleLine(position);
-                    EditorGUI.PropertyField(position, endAlpha);
-                    break;
-            }
+                        EditorGUI.PropertyField(position, overrideStartStatus);
+                        if (overrideStartStatus.boolValue)
+                        {
+                            position = GetSingleLine(position);
+                            EditorGUI.PropertyField(position, startPos);
+                        }
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, endPos);
+                        break;
+                    case SingleTween.TweenType.ScaleTween:
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, transform);
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, overrideStartStatus);
+                        if (overrideStartStatus.boolValue)
+                        {
+                            position = GetSingleLine(position);
+                            EditorGUI.PropertyField(position, startScale);
+                        }
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, endScale);
+                        break;
+                    case SingleTween.TweenType.ImageTween:
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, image);
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, overrideStartStatus);
+                        DrawAlpha(overrideStartStatus, startAlpha, endAlpha, position);
+                        break;
+                    case SingleTween.TweenType.TextTween:
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, text);
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, overrideStartStatus);
+                        DrawAlpha(overrideStartStatus, startAlpha, endAlpha, position);
+                        break;
+                    case SingleTween.TweenType.TextMeshPropTween:
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, textMeshProUGUI);
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, overrideStartStatus);
+                        DrawAlpha(overrideStartStatus, startAlpha, endAlpha, position);
+                        break;
+                    case SingleTween.TweenType.CanvasTween:
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, canvasGroup);
+                        position = GetSingleLine(position);
+                        EditorGUI.PropertyField(position, overrideStartStatus);
+                        DrawAlpha(overrideStartStatus, startAlpha, endAlpha, position);
+                        break;
+                }
             }
             EditorGUI.indentLevel--;
         }
@@ -105,13 +134,24 @@ namespace GameUtil.Editor
         {
             if(!property.isExpanded) return EditorGUIUtility.singleLineHeight;
             if (property.FindPropertyRelative(nameof(SingleTween.IsDelay)).boolValue) return 3 * (EditorGUIUtility.singleLineHeight + 2) - 2;
-            int line = 9;
+            int line = 10;
             if ((SingleTween.LinkType) property.FindPropertyRelative(nameof(SingleTween.TweenerLinkType)).intValue ==
                 SingleTween.LinkType.Insert)
                 line++;
             if (property.FindPropertyRelative(nameof(SingleTween.OverrideStartStatus)).boolValue)
                 line++;
             return line * (EditorGUIUtility.singleLineHeight + 2) - 2;
+        }
+
+        private static void DrawAlpha(SerializedProperty overrideStartStatus, SerializedProperty startAlpha, SerializedProperty endAlpha, Rect position)
+        {
+            if (overrideStartStatus.boolValue)
+            {
+                position = GetSingleLine(position);
+                EditorGUI.PropertyField(position, startAlpha);
+            }
+            position = GetSingleLine(position);
+            EditorGUI.PropertyField(position, endAlpha);
         }
     }
 }
