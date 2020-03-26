@@ -74,6 +74,7 @@ namespace GameUtil
                         mSequence.AppendInterval(tween.Delay);
                     else
                     {
+                        if(!tween.IsValid) continue;
                         switch (tween.TweenerLinkType)
                         {
                             case SingleTween.LinkType.Append:

@@ -62,6 +62,7 @@ namespace GameUtil
         public void Bind(GameObject go)
         {
             IsValid = true;
+            if(IsDelay) return;
             switch (Mode)
             {
                 case TweenType.MoveTween:
@@ -131,7 +132,7 @@ namespace GameUtil
 
         public void SetStartStatus()
         {
-            if(!IsValid || !OverrideStartStatus) return;
+            if(IsDelay || !IsValid || !OverrideStartStatus) return;
             switch (Mode)
             {
                 case TweenType.ImageTween:
@@ -166,7 +167,7 @@ namespace GameUtil
         
         public Tweener BuildTween()
         {
-            if (!IsValid) return null;
+            if (IsDelay || !IsValid) return null;
             Tweener result;
             switch (Mode)
             {
@@ -210,7 +211,7 @@ namespace GameUtil
 
         public void RecoverStatus()
         {
-            if (!IsValid) return;
+            if (IsDelay || !IsValid) return;
             switch (Mode)
             {
                 case TweenType.MoveTween:
