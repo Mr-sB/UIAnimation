@@ -11,12 +11,12 @@ namespace GameUtil
     {
         public enum TweenType
         {
-            MoveTween,
-            ScaleTween,
-            ImageTween,
-            TextTween,
-            TextMeshPropTween,
-            CanvasTween,
+            Move,
+            Scale,
+            Image,
+            Text,
+            TextMeshProp,
+            Canvas,
         }
         
         public enum LinkType
@@ -65,17 +65,17 @@ namespace GameUtil
             if(IsDelay) return;
             switch (Mode)
             {
-                case TweenType.MoveTween:
+                case TweenType.Move:
                     if(!Transform)
                         Transform = go.transform;
                     mRecoverPos = Transform.localPosition;
                     break;
-                case TweenType.ScaleTween:
+                case TweenType.Scale:
                     if(!Transform)
                         Transform = go.transform;
                     mRecoverScale = Transform.localScale;
                     break;
-                case TweenType.ImageTween:
+                case TweenType.Image:
                     if (!Image)
                     {
                         Image = go.GetComponent<Image>();
@@ -88,7 +88,7 @@ namespace GameUtil
                     }
                     mRecoverColor = Image.color;
                     break;
-                case TweenType.TextTween:
+                case TweenType.Text:
                     if (!Text)
                     {
                         Text = go.GetComponent<Text>();
@@ -101,7 +101,7 @@ namespace GameUtil
                     }
                     mRecoverColor = Text.color;
                     break;
-                case TweenType.TextMeshPropTween:
+                case TweenType.TextMeshProp:
                     if (!TextMeshProUGUI)
                     {
                         TextMeshProUGUI = go.GetComponent<TextMeshProUGUI>();
@@ -114,7 +114,7 @@ namespace GameUtil
                     }
                     mRecoverColor = TextMeshProUGUI.color;
                     break;
-                case TweenType.CanvasTween:
+                case TweenType.Canvas:
                     if (!CanvasGroup)
                     {
                         CanvasGroup = go.GetComponent<CanvasGroup>();
@@ -135,28 +135,28 @@ namespace GameUtil
             if(IsDelay || !IsValid || !OverrideStartStatus) return;
             switch (Mode)
             {
-                case TweenType.ImageTween:
+                case TweenType.Image:
                     var color = Image.color;
                     color.a = StartAlpha;
                     Image.color = color;
                     break;
-                case TweenType.TextTween:
+                case TweenType.Text:
                     var color1 = Text.color;
                     color1.a = StartAlpha;
                     Text.color = color1;
                     break;
-                case TweenType.TextMeshPropTween:
+                case TweenType.TextMeshProp:
                     var color2 = TextMeshProUGUI.color;
                     color2.a = StartAlpha;
                     TextMeshProUGUI.color = color2;
                     break;
-                case TweenType.MoveTween:
+                case TweenType.Move:
                     Transform.localPosition = StartPos;
                     break;
-                case TweenType.ScaleTween:
+                case TweenType.Scale:
                     Transform.localScale = StartScale;
                     break;
-                case TweenType.CanvasTween:
+                case TweenType.Canvas:
                     CanvasGroup.alpha = StartAlpha;
                     break;
                 default:
@@ -171,24 +171,24 @@ namespace GameUtil
             Tweener result;
             switch (Mode)
             {
-                case TweenType.MoveTween:
+                case TweenType.Move:
                     result = Transform.DOLocalMove(EndPos, Duration, false);
                     break;
-                case TweenType.ScaleTween:
+                case TweenType.Scale:
                     result = Transform.DOScale(EndScale, Duration);
                     break;
-                case TweenType.ImageTween:
+                case TweenType.Image:
                     result = Image.DOFade(EndAlpha < 0 ? 1 : EndAlpha, Duration);
                     break;
-                case TweenType.TextTween:
+                case TweenType.Text:
                     result = Text.DOFade(EndAlpha < 0 ? 1 : EndAlpha, Duration);
                     break;
-                case TweenType.TextMeshPropTween:
+                case TweenType.TextMeshProp:
                     Color color = TextMeshProUGUI.color;
                     color.a = EndAlpha;
                     result = DOTween.To(() => TextMeshProUGUI.color, x => TextMeshProUGUI.color = x, color, Duration);
                     break;
-                case TweenType.CanvasTween:
+                case TweenType.Canvas:
                     result = CanvasGroup.DOFade(EndAlpha < 0 ? 1 : EndAlpha, Duration);
                     break;
                 default:
@@ -214,22 +214,22 @@ namespace GameUtil
             if (IsDelay || !IsValid) return;
             switch (Mode)
             {
-                case TweenType.MoveTween:
+                case TweenType.Move:
                     Transform.localPosition = mRecoverPos;
                     break;
-                case TweenType.ScaleTween:
+                case TweenType.Scale:
                     Transform.localScale = mRecoverScale;
                     break;
-                case TweenType.ImageTween:
+                case TweenType.Image:
                     Image.color = mRecoverColor;
                     break;
-                case TweenType.TextTween:
+                case TweenType.Text:
                     Text.color = mRecoverColor;
                     break;
-                case TweenType.TextMeshPropTween:
+                case TweenType.TextMeshProp:
                     TextMeshProUGUI.color = mRecoverColor;
                     break;
-                case TweenType.CanvasTween:
+                case TweenType.Canvas:
                     CanvasGroup.alpha = mRecoverColor.a;
                     break;
                 default:

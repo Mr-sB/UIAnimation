@@ -4,21 +4,14 @@ using UnityEngine;
 namespace GameUtil.Editor
 {
     [CustomPropertyDrawer(typeof(ButtonAnim.TweenSetting))]
-    public class ButtonAnimTweenSettingDrawer : PropertyDrawer
+    public class ButtonAnimTweenSettingDrawer : PropertyDrawerBase
     {
-        private static Rect GetSingleLine(Rect position)
-        {
-            position.y += EditorGUIUtility.singleLineHeight + 2;
-            position.height = EditorGUIUtility.singleLineHeight;
-            return position;
-        }
-        
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            position.y -= EditorGUIUtility.singleLineHeight + 2;
-            
-            position = GetSingleLine(position);
-            if (!EditorGUI.PropertyField(position, property, label, false)) return;
+            Init(position);
+
+            if (!PropertyField(property, label, false)) return;
 
             var duration = property.FindPropertyRelative(nameof(ButtonAnim.TweenSetting.Duration));
             var useCurve = property.FindPropertyRelative(nameof(ButtonAnim.TweenSetting.UseCurve));
@@ -27,20 +20,30 @@ namespace GameUtil.Editor
             var scale = property.FindPropertyRelative(nameof(ButtonAnim.TweenSetting.Scale));
 
             EditorGUI.indentLevel++;
-            position = GetSingleLine(position);
-            EditorGUI.PropertyField(position, duration);
-            position = GetSingleLine(position);
-            EditorGUI.PropertyField(position, useCurve);
-            position = GetSingleLine(position);
-            EditorGUI.PropertyField(position, useCurve.boolValue ? curve : easeType);
-            position = GetSingleLine(position);
-            EditorGUI.PropertyField(position, scale);
+            PropertyField(duration);
+            PropertyField(useCurve);
+            PropertyField(useCurve.boolValue ? curve : easeType);
+            PropertyField(scale);
             EditorGUI.indentLevel--;
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return property.isExpanded ? 5 * (EditorGUIUtility.singleLineHeight + 2) - 2 : EditorGUIUtility.singleLineHeight;
+            mAllHeight = 0;
+            AddPropertyHeight(property);
+            if(!property.isExpanded) return mAllHeight - 2;
+            
+            var duration = property.FindPropertyRelative(nameof(ButtonAnim.TweenSetting.Duration));
+            var useCurve = property.FindPropertyRelative(nameof(ButtonAnim.TweenSetting.UseCurve));
+            var curve = property.FindPropertyRelative(nameof(ButtonAnim.TweenSetting.Curve));
+            var easeType = property.FindPropertyRelative(nameof(ButtonAnim.TweenSetting.EaseType));
+            var scale = property.FindPropertyRelative(nameof(ButtonAnim.TweenSetting.Scale));
+
+            AddPropertyHeight(duration);
+            AddPropertyHeight(useCurve);
+            AddPropertyHeight(useCurve.boolValue ? curve : easeType);
+            AddPropertyHeight(scale);
+            return mAllHeight - 2;
         }
     }
 }
