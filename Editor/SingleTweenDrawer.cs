@@ -57,39 +57,22 @@ namespace GameUtil.Editor
                 switch ((SingleTween.TweenType) mode.intValue)
                 {
                     case SingleTween.TweenType.Move:
-                        PropertyField(transform);
-                        PropertyField(overrideStartStatus);
-                        if (overrideStartStatus.boolValue)
-                        {
-                            PropertyField(startPos);
-                            EditorGUI.GetPropertyHeight(startPos, true);
-                        }
-                        PropertyField(endPos);
+                        DrawTweenType(transform, overrideStartStatus, startPos, endPos);
                         break;
                     case SingleTween.TweenType.Scale:
-                        PropertyField(transform);
-                        PropertyField(overrideStartStatus);
-                        if (overrideStartStatus.boolValue)
-                        {
-                            PropertyField(startScale);
-                        }
-                        PropertyField(endScale);
+                        DrawTweenType(transform, overrideStartStatus, startScale, endScale);
                         break;
                     case SingleTween.TweenType.Image:
-                        PropertyField(image);
-                        DrawAlpha(overrideStartStatus, startAlpha, endAlpha);
+                        DrawTweenType(image, overrideStartStatus, startAlpha, endAlpha);
                         break;
                     case SingleTween.TweenType.Text:
-                        PropertyField(text);
-                        DrawAlpha(overrideStartStatus, startAlpha, endAlpha);
+                        DrawTweenType(text, overrideStartStatus, startAlpha, endAlpha);
                         break;
                     case SingleTween.TweenType.TextMeshProp:
-                        PropertyField(textMeshProUGUI);
-                        DrawAlpha(overrideStartStatus, startAlpha, endAlpha);
+                        DrawTweenType(textMeshProUGUI, overrideStartStatus, startAlpha, endAlpha);
                         break;
                     case SingleTween.TweenType.Canvas:
-                        PropertyField(canvasGroup);
-                        DrawAlpha(overrideStartStatus, startAlpha, endAlpha);
+                        DrawTweenType(canvasGroup, overrideStartStatus, startAlpha, endAlpha);
                         break;
                 }
             }
@@ -146,59 +129,44 @@ namespace GameUtil.Editor
                 switch ((SingleTween.TweenType) mode.intValue)
                 {
                     case SingleTween.TweenType.Move:
-                        AddPropertyHeight(transform);
-                        AddPropertyHeight(overrideStartStatus);
-                        if (overrideStartStatus.boolValue)
-                        {
-                            AddPropertyHeight(startPos);
-                            EditorGUI.GetPropertyHeight(startPos, true);
-                        }
-                        AddPropertyHeight(endPos);
+                        AddTweenType(transform, overrideStartStatus, startPos, endPos);
                         break;
                     case SingleTween.TweenType.Scale:
-                        AddPropertyHeight(transform);
-                        AddPropertyHeight(overrideStartStatus);
-                        if (overrideStartStatus.boolValue)
-                        {
-                            AddPropertyHeight(startScale);
-                        }
-                        AddPropertyHeight(endScale);
+                        AddTweenType(transform, overrideStartStatus, startScale, endScale);
                         break;
                     case SingleTween.TweenType.Image:
-                        AddPropertyHeight(image);
-                        AddAlpha(overrideStartStatus, startAlpha, endAlpha);
+                        AddTweenType(image, overrideStartStatus, startAlpha, endAlpha);
                         break;
                     case SingleTween.TweenType.Text:
-                        AddPropertyHeight(text);
-                        AddAlpha(overrideStartStatus, startAlpha, endAlpha);
+                        AddTweenType(text, overrideStartStatus, startAlpha, endAlpha);
                         break;
                     case SingleTween.TweenType.TextMeshProp:
-                        AddPropertyHeight(textMeshProUGUI);
-                        AddAlpha(overrideStartStatus, startAlpha, endAlpha);
+                        AddTweenType(textMeshProUGUI, overrideStartStatus, startAlpha, endAlpha);
                         break;
                     case SingleTween.TweenType.Canvas:
-                        AddPropertyHeight(canvasGroup);
-                        AddAlpha(overrideStartStatus, startAlpha, endAlpha);
+                        AddTweenType(canvasGroup, overrideStartStatus, startAlpha, endAlpha);
                         break;
                 }
             }
             return mAllHeight - 2;
         }
 
-        private void DrawAlpha(SerializedProperty overrideStartStatus, SerializedProperty startAlpha, SerializedProperty endAlpha)
+        private void DrawTweenType(SerializedProperty component, SerializedProperty overrideStartStatus, SerializedProperty start, SerializedProperty end)
         {
+            PropertyField(component);
             PropertyField(overrideStartStatus);
             if (overrideStartStatus.boolValue)
-                PropertyField(startAlpha);
-            PropertyField(endAlpha);
+                PropertyField(start);
+            PropertyField(end);
         }
         
-        private void AddAlpha(SerializedProperty overrideStartStatus, SerializedProperty startAlpha, SerializedProperty endAlpha)
+        private void AddTweenType(SerializedProperty component, SerializedProperty overrideStartStatus, SerializedProperty start, SerializedProperty end)
         {
+            AddPropertyHeight(component);
             AddPropertyHeight(overrideStartStatus);
             if (overrideStartStatus.boolValue)
-                AddPropertyHeight(startAlpha);
-            AddPropertyHeight(endAlpha);
+                AddPropertyHeight(start);
+            AddPropertyHeight(end);
         }
     }
 }
