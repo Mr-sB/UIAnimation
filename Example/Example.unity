@@ -479,7 +479,7 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  EndSingleTweens:
+  CloseSingleTweens:
   - IsDelay: 0
     Delay: 0
     Duration: 1
@@ -501,10 +501,10 @@ MonoBehaviour:
     CanvasGroup: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
-    EndPos: {x: 500, y: 500, z: 500}
+    EndPos: {x: 0, y: 0, z: 0}
     StartScale: {x: 0, y: 0, z: 0}
     EndScale: {x: 0, y: 0, z: 0}
-    StartAlpha: 1
+    StartAlpha: 0
     EndAlpha: 0
   - IsDelay: 0
     Delay: 0
@@ -526,30 +526,30 @@ MonoBehaviour:
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
     OverrideStartStatus: 0
-    StartPos: {x: 1000, y: 1000, z: 1000}
-    EndPos: {x: -500, y: -500, z: -500}
+    StartPos: {x: 0, y: 0, z: 0}
+    EndPos: {x: 0, y: 0, z: 0}
     StartScale: {x: 0, y: 0, z: 0}
     EndScale: {x: 0, y: 0, z: 0}
-    StartAlpha: 0.2
+    StartAlpha: 0
     EndAlpha: 0.7
   IsExecuteStartAction: 1
-  StartEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   IsExecuteCloseAction: 1
-  CloseEvent:
+  OnStartBeforeAnim:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  OnStart:
+  OnCloseBeforeAnim:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  OnClose:
+  OnStartAfterAnim:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnCloseAfterAnim:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -850,10 +850,10 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0.5
-  EndSingleTweens:
+  CloseSingleTweens:
   - IsDelay: 0
     Delay: 0
-    Duration: 0
+    Duration: 1
     UseCurve: 0
     Curve:
       serializedVersion: 2
@@ -878,23 +878,23 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   IsExecuteStartAction: 1
-  StartEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   IsExecuteCloseAction: 1
-  CloseEvent:
+  OnStartBeforeAnim:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  OnStart:
+  OnCloseBeforeAnim:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  OnClose:
+  OnStartAfterAnim:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnCloseAfterAnim:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
@@ -1187,10 +1187,10 @@ MonoBehaviour:
     EndScale: {x: 0.5, y: 0.5, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  EndSingleTweens:
+  CloseSingleTweens:
   - IsDelay: 0
     Delay: 0
-    Duration: 0
+    Duration: 1
     UseCurve: 0
     Curve:
       serializedVersion: 2
@@ -1215,23 +1215,23 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   IsExecuteStartAction: 1
-  StartEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   IsExecuteCloseAction: 1
-  CloseEvent:
+  OnStartBeforeAnim:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  OnStart:
+  OnCloseBeforeAnim:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  OnClose:
+  OnStartAfterAnim:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnCloseAfterAnim:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
