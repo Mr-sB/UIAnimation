@@ -12,6 +12,7 @@ namespace GameUtil
         public enum TweenType
         {
             Move,
+            Rotate,
             Scale,
             Image,
             Text,
@@ -46,6 +47,8 @@ namespace GameUtil
         public bool OverrideStartStatus;
         public Vector3 StartPos;
         public Vector3 EndPos;
+        public Vector3 StartRotation;
+        public Vector3 EndRotation;
         public Vector3 StartScale;
         public Vector3 EndScale;
         [Range(0,1)]
@@ -55,6 +58,7 @@ namespace GameUtil
         //Recover Status
         private Color mRecoverColor;
         private Vector3 mRecoverPos;
+        private Vector3 mRecoverRotation;
         private Vector3 mRecoverScale;
 
         public bool IsValid { private set; get; }
@@ -69,6 +73,11 @@ namespace GameUtil
                     if(!Transform)
                         Transform = go.transform;
                     mRecoverPos = Transform.localPosition;
+                    break;
+                case TweenType.Rotate:
+                    if(!Transform)
+                        Transform = go.transform;
+                    mRecoverRotation = Transform.localEulerAngles;
                     break;
                 case TweenType.Scale:
                     if(!Transform)
@@ -135,6 +144,15 @@ namespace GameUtil
             if(IsDelay || !IsValid || !OverrideStartStatus) return;
             switch (Mode)
             {
+                case TweenType.Move:
+                    Transform.localPosition = StartPos;
+                    break;
+                case TweenType.Rotate:
+                    Transform.localEulerAngles = StartRotation;
+                    break;
+                case TweenType.Scale:
+                    Transform.localScale = StartScale;
+                    break;
                 case TweenType.Image:
                     var color = Image.color;
                     color.a = StartAlpha;
@@ -149,12 +167,6 @@ namespace GameUtil
                     var color2 = TextMeshProUGUI.color;
                     color2.a = StartAlpha;
                     TextMeshProUGUI.color = color2;
-                    break;
-                case TweenType.Move:
-                    Transform.localPosition = StartPos;
-                    break;
-                case TweenType.Scale:
-                    Transform.localScale = StartScale;
                     break;
                 case TweenType.Canvas:
                     CanvasGroup.alpha = StartAlpha;
@@ -172,7 +184,10 @@ namespace GameUtil
             switch (Mode)
             {
                 case TweenType.Move:
-                    result = Transform.DOLocalMove(EndPos, Duration, false);
+                    result = Transform.DOLocalMove(EndPos, Duration);
+                    break;
+                case TweenType.Rotate:
+                    result = Transform.DOLocalRotate(EndRotation, Duration);
                     break;
                 case TweenType.Scale:
                     result = Transform.DOScale(EndScale, Duration);
@@ -216,6 +231,9 @@ namespace GameUtil
             {
                 case TweenType.Move:
                     Transform.localPosition = mRecoverPos;
+                    break;
+                case TweenType.Rotate:
+                    Transform.localEulerAngles = mRecoverRotation;
                     break;
                 case TweenType.Scale:
                     Transform.localScale = mRecoverScale;

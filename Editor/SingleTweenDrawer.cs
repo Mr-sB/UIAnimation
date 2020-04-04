@@ -38,6 +38,8 @@ namespace GameUtil.Editor
                 var overrideStartStatus = property.FindPropertyRelative(nameof(SingleTween.OverrideStartStatus));
                 var startPos = property.FindPropertyRelative(nameof(SingleTween.StartPos));
                 var endPos = property.FindPropertyRelative(nameof(SingleTween.EndPos));
+                var startRotation = property.FindPropertyRelative(nameof(SingleTween.StartRotation));
+                var endRotation = property.FindPropertyRelative(nameof(SingleTween.EndRotation));
                 var startScale = property.FindPropertyRelative(nameof(SingleTween.StartScale));
                 var endScale = property.FindPropertyRelative(nameof(SingleTween.EndScale));
                 var startAlpha = property.FindPropertyRelative(nameof(SingleTween.StartAlpha));
@@ -58,6 +60,9 @@ namespace GameUtil.Editor
                 {
                     case SingleTween.TweenType.Move:
                         DrawTweenType(transform, overrideStartStatus, startPos, endPos);
+                        break;
+                    case SingleTween.TweenType.Rotate:
+                        DrawTweenType(transform, overrideStartStatus, startRotation, endRotation);
                         break;
                     case SingleTween.TweenType.Scale:
                         DrawTweenType(transform, overrideStartStatus, startScale, endScale);
@@ -110,6 +115,8 @@ namespace GameUtil.Editor
                 var overrideStartStatus = property.FindPropertyRelative(nameof(SingleTween.OverrideStartStatus));
                 var startPos = property.FindPropertyRelative(nameof(SingleTween.StartPos));
                 var endPos = property.FindPropertyRelative(nameof(SingleTween.EndPos));
+                var startRotation = property.FindPropertyRelative(nameof(SingleTween.StartRotation));
+                var endRotation = property.FindPropertyRelative(nameof(SingleTween.EndRotation));
                 var startScale = property.FindPropertyRelative(nameof(SingleTween.StartScale));
                 var endScale = property.FindPropertyRelative(nameof(SingleTween.EndScale));
                 var startAlpha = property.FindPropertyRelative(nameof(SingleTween.StartAlpha));
@@ -130,6 +137,9 @@ namespace GameUtil.Editor
                 {
                     case SingleTween.TweenType.Move:
                         AddTweenType(transform, overrideStartStatus, startPos, endPos);
+                        break;
+                    case SingleTween.TweenType.Rotate:
+                        AddTweenType(transform, overrideStartStatus, startRotation, endRotation);
                         break;
                     case SingleTween.TweenType.Scale:
                         AddTweenType(transform, overrideStartStatus, startScale, endScale);
