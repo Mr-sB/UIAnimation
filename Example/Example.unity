@@ -532,8 +532,6 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0.7
-  IsExecuteStartAction: 1
-  IsExecuteCloseAction: 1
   OnStartBeforeAnim:
     m_PersistentCalls:
       m_Calls: []
@@ -877,8 +875,6 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  IsExecuteStartAction: 1
-  IsExecuteCloseAction: 1
   OnStartBeforeAnim:
     m_PersistentCalls:
       m_Calls: []
@@ -1214,8 +1210,6 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  IsExecuteStartAction: 1
-  IsExecuteCloseAction: 1
   OnStartBeforeAnim:
     m_PersistentCalls:
       m_Calls: []

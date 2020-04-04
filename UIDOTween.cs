@@ -7,12 +7,16 @@ namespace GameUtil
 {
     public class UIDOTween : MonoBehaviour
     {
+        private enum TweenStatus
+        {
+            None,
+            Start,
+            Close
+        }
+        
         public bool PlayOnEnable = true;
         public SingleTween[] StartSingleTweens = new SingleTween[0];
         public SingleTween[] CloseSingleTweens = new SingleTween[0];
-        
-        public bool IsExecuteStartAction = true;//是否执行DoStartTween(action) 里的action
-        public bool IsExecuteCloseAction = true;//是否执行DoCloseTween(action) 里的action
 
         [Tooltip("打开界面时调用")] public UnityEvent OnStartBeforeAnim;
         [Tooltip("关闭界面时调用")] public UnityEvent OnCloseBeforeAnim;
@@ -20,6 +24,7 @@ namespace GameUtil
         [Tooltip("关闭界面动画结束时调用")] public UnityEvent OnCloseAfterAnim;
         
         private Sequence mSequence;
+        private TweenStatus mTweenStatus = TweenStatus.None;
         
         private void Awake()
         {
@@ -39,12 +44,14 @@ namespace GameUtil
         public void DoStartTween(Action action)
         {
             RecoverStatus();
-            DoTweenInternal(StartSingleTweens, OnStartBeforeAnim, IsExecuteStartAction, OnStartAfterAnim, action);
+            mTweenStatus = TweenStatus.Start;
+            DoTweenInternal(StartSingleTweens, OnStartBeforeAnim, OnStartAfterAnim, action);
         }
 
         public void DoCloseTween(Action action)
         {
-            DoTweenInternal(CloseSingleTweens, OnCloseBeforeAnim, IsExecuteCloseAction, OnCloseAfterAnim, action);
+            mTweenStatus = TweenStatus.Close;
+            DoTweenInternal(CloseSingleTweens, OnCloseBeforeAnim, OnCloseAfterAnim, action);
         }
         
         [ContextMenu("DoStartTween")]
@@ -58,8 +65,8 @@ namespace GameUtil
         {
             DoCloseTween(null);
         }
-
-        private void DoTweenInternal(SingleTween[] tweens, UnityEvent beforeEvent, bool isExecute, UnityEvent afterEvent, Action action)
+        
+        private void DoTweenInternal(SingleTween[] tweens, UnityEvent beforeEvent, UnityEvent afterEvent, Action action)
         {
             float lastTweenInsertTime = 0;
             mSequence?.Kill();
@@ -101,17 +108,65 @@ namespace GameUtil
                 mSequence.AppendCallback(() =>
                 {
                     mSequence = null;
+                    mTweenStatus = TweenStatus.None;
                     afterEvent?.Invoke();
-                    if (isExecute)
-                        action?.Invoke();
+                    action?.Invoke();
                 });
             }
             else
             {
+                mTweenStatus = TweenStatus.None;
                 afterEvent?.Invoke();
-                if (isExecute)
-                    action?.Invoke();
+                action?.Invoke();
             }
+        }
+        
+        /// <param name="recalculation">whether recalculate duration</param>
+        public float GetStartDuration(bool recalculation = false)
+        {
+            if(!recalculation && mSequence != null && mTweenStatus == TweenStatus.Start)
+                return mSequence.Duration(false);
+            return GetDuration(StartSingleTweens);
+        }
+        
+        /// <param name="recalculation">whether recalculate duration</param>
+        public float GetCloseDuration(bool recalculation = false)
+        {
+            if(!recalculation && mSequence != null && mTweenStatus == TweenStatus.Close)
+                return mSequence.Duration(false);
+            return GetDuration(CloseSingleTweens);
+        }
+        
+        private static float GetDuration(SingleTween[] tweens)
+        {
+            if (tweens == null || tweens.Length <= 0) return 0;
+            float duration = 0;
+            float lastTweenInsertTime = 0;
+            foreach (var tween in tweens)
+            {
+                if (tween.IsDelay && tween.Delay > 0)
+                    duration += tween.Delay;
+                else
+                {
+                    if (!tween.IsValid) continue;
+                    switch (tween.TweenerLinkType)
+                    {
+                        case SingleTween.LinkType.Append:
+                            lastTweenInsertTime = duration;
+                            duration += tween.Duration;
+                            break;
+                        case SingleTween.LinkType.Insert:
+                            lastTweenInsertTime = tween.AtPosition;
+                            goto case SingleTween.LinkType.Join;
+                        case SingleTween.LinkType.Join:
+                            float newDuration = lastTweenInsertTime + tween.Duration;
+                            if (newDuration > duration)
+                                duration = newDuration;
+                            break;
+                    }
+                }
+            }
+            return duration;
         }
 
         private void RecoverStatus()
