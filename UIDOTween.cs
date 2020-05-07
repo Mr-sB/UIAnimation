@@ -15,6 +15,8 @@ namespace GameUtil
         }
         
         public bool PlayOnEnable = true;
+        public UpdateType UpdateType = UpdateType.Normal;
+        public bool IgnoreTimeScale = true;
         public SingleTween[] StartSingleTweens = new SingleTween[0];
         public SingleTween[] CloseSingleTweens = new SingleTween[0];
 
@@ -74,7 +76,7 @@ namespace GameUtil
             beforeEvent?.Invoke();
             if (tweens.Length > 0)
             {
-                mSequence = DOTween.Sequence();
+                mSequence = DOTween.Sequence().SetUpdate(UpdateType, IgnoreTimeScale);
                 foreach (var tween in tweens)
                 {
                     if (tween.IsDelay && tween.Delay > 0)
@@ -104,8 +106,7 @@ namespace GameUtil
                         }
                     }
                 }
-
-                mSequence.AppendCallback(() =>
+                mSequence.OnComplete(() =>
                 {
                     mSequence = null;
                     mTweenStatus = TweenStatus.None;

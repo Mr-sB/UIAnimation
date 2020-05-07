@@ -218,7 +218,6 @@ namespace GameUtil
                     result.SetEase(Curve);
                 else
                     result.SetEase(EaseType);
-                result.SetUpdate(true);
             }
 
             return result;

@@ -426,6 +426,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayOnEnable: 1
+  UpdateType: 0
+  IgnoreTimeScale: 1
   StartSingleTweens:
   - IsDelay: 0
     Delay: 0
@@ -751,6 +753,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayOnEnable: 1
+  UpdateType: 0
+  IgnoreTimeScale: 1
   StartSingleTweens:
   - IsDelay: 0
     Delay: 0
@@ -946,6 +950,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayOnEnable: 1
+  UpdateType: 0
+  IgnoreTimeScale: 1
   StartSingleTweens:
   - IsDelay: 0
     Delay: 0
@@ -1265,6 +1271,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayOnEnable: 1
+  UpdateType: 0
+  IgnoreTimeScale: 1
   StartSingleTweens:
   - IsDelay: 0
     Delay: 0
