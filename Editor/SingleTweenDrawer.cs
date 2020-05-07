@@ -73,7 +73,7 @@ namespace GameUtil.Editor
                     case SingleTween.TweenType.Text:
                         DrawTweenType(text, overrideStartStatus, startAlpha, endAlpha);
                         break;
-                    case SingleTween.TweenType.TextMeshProp:
+                    case SingleTween.TweenType.TextMeshProUGUI:
                         DrawTweenType(textMeshProUGUI, overrideStartStatus, startAlpha, endAlpha);
                         break;
                     case SingleTween.TweenType.Canvas:
@@ -150,7 +150,7 @@ namespace GameUtil.Editor
                     case SingleTween.TweenType.Text:
                         AddTweenType(text, overrideStartStatus, startAlpha, endAlpha);
                         break;
-                    case SingleTween.TweenType.TextMeshProp:
+                    case SingleTween.TweenType.TextMeshProUGUI:
                         AddTweenType(textMeshProUGUI, overrideStartStatus, startAlpha, endAlpha);
                         break;
                     case SingleTween.TweenType.Canvas:

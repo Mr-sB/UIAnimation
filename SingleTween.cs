@@ -16,7 +16,7 @@ namespace GameUtil
             Scale,
             Image,
             Text,
-            TextMeshProp,
+            TextMeshProUGUI,
             Canvas,
         }
         
@@ -110,7 +110,7 @@ namespace GameUtil
                     }
                     mRecoverColor = Text.color;
                     break;
-                case TweenType.TextMeshProp:
+                case TweenType.TextMeshProUGUI:
                     if (!TextMeshProUGUI)
                     {
                         TextMeshProUGUI = go.GetComponent<TextMeshProUGUI>();
@@ -163,7 +163,7 @@ namespace GameUtil
                     color1.a = StartAlpha;
                     Text.color = color1;
                     break;
-                case TweenType.TextMeshProp:
+                case TweenType.TextMeshProUGUI:
                     var color2 = TextMeshProUGUI.color;
                     color2.a = StartAlpha;
                     TextMeshProUGUI.color = color2;
@@ -198,7 +198,7 @@ namespace GameUtil
                 case TweenType.Text:
                     result = Text.DOFade(EndAlpha < 0 ? 1 : EndAlpha, Duration);
                     break;
-                case TweenType.TextMeshProp:
+                case TweenType.TextMeshProUGUI:
                     Color color = TextMeshProUGUI.color;
                     color.a = EndAlpha;
                     result = DOTween.To(() => TextMeshProUGUI.color, x => TextMeshProUGUI.color = x, color, Duration);
@@ -243,7 +243,7 @@ namespace GameUtil
                 case TweenType.Text:
                     Text.color = mRecoverColor;
                     break;
-                case TweenType.TextMeshProp:
+                case TweenType.TextMeshProUGUI:
                     TextMeshProUGUI.color = mRecoverColor;
                     break;
                 case TweenType.Canvas:
