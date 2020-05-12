@@ -54,7 +54,11 @@ namespace GameUtil
 
         public void SetAnimEnable(bool enable)
         {
+            if (mIsEnable == enable) return;
             mIsEnable = enable;
+            if (mIsEnable) return;
+            KillTween();
+            Recover();
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -85,9 +89,14 @@ namespace GameUtil
             UpAnim();
         }
 
-        private void DownAnim()
+        private void Recover()
         {
             m_ScaleTransform.localScale = mStartScale;
+        }
+
+        private void DownAnim()
+        {
+            Recover();
             AnimInternal(DownSetting);
         }
 
