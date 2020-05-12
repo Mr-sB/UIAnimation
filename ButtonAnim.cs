@@ -52,9 +52,9 @@ namespace GameUtil
             mStartScale = m_ScaleTransform.localScale;
         }
 
-        public void DisableAnimation()
+        public void SetAnimEnable(bool enable)
         {
-            mIsEnable = false;
+            mIsEnable = enable;
         }
 
         public void OnPointerDown(PointerEventData eventData)
