@@ -71,6 +71,7 @@ namespace GameUtil
         private void DoTweenInternal(SingleTween[] tweens, UnityEvent beforeEvent, UnityEvent afterEvent, Action action)
         {
             float lastTweenInsertTime = 0;
+            bool needCallImmediately = false;
             mSequence?.Kill();
             mSequence = null;
             beforeEvent?.Invoke();
@@ -88,19 +89,37 @@ namespace GameUtil
                         {
                             case SingleTween.LinkType.Append:
                                 lastTweenInsertTime = mSequence.Duration(false);
+                                needCallImmediately = lastTweenInsertTime < 1e-4;
                                 if (tween.OverrideStartStatus)
-                                    mSequence.AppendCallback(tween.SetStartStatus);
+                                {
+                                    if (needCallImmediately)
+                                        tween.SetStartStatus();
+                                    else
+                                        mSequence.AppendCallback(tween.SetStartStatus);
+                                }
+
                                 mSequence.Append(tween.BuildTween());
                                 break;
                             case SingleTween.LinkType.Join:
                                 if (tween.OverrideStartStatus)
-                                    mSequence.InsertCallback(lastTweenInsertTime, tween.SetStartStatus);
+                                {
+                                    if (needCallImmediately)
+                                        tween.SetStartStatus();
+                                    else
+                                        mSequence.InsertCallback(lastTweenInsertTime, tween.SetStartStatus);
+                                }
                                 mSequence.Join(tween.BuildTween());
                                 break;
                             case SingleTween.LinkType.Insert:
                                 lastTweenInsertTime = tween.AtPosition;
+                                needCallImmediately = lastTweenInsertTime < 1e-4;
                                 if (tween.OverrideStartStatus)
-                                    mSequence.InsertCallback(lastTweenInsertTime, tween.SetStartStatus);
+                                {
+                                    if (needCallImmediately)
+                                        tween.SetStartStatus();
+                                    else
+                                        mSequence.InsertCallback(lastTweenInsertTime, tween.SetStartStatus);
+                                }
                                 mSequence.Insert(lastTweenInsertTime, tween.BuildTween());
                                 break;
                         }
