@@ -31,16 +31,19 @@ namespace GameUtil
         
         [SerializeField] private Transform m_ScaleTransform;
         [SerializeField] private Button m_Button;
-        public TweenSetting DownSetting = new TweenSetting(0.15f, false, AnimationCurve.Linear(0,0,1,1), Ease.OutQuad, new Vector3(0.9f, 0.9f, 1));
-        public TweenSetting UpSetting = new TweenSetting(0.15f, false, AnimationCurve.Linear(0,0,1,1), Ease.OutQuad, new Vector3(1f, 1f, 1));
-
+        public bool RelativeScale = true;
+        public TweenSetting DownSetting = new TweenSetting(0.1f, false, AnimationCurve.Linear(0,0,1,1), Ease.OutQuad, new Vector3(0.95f, 0.95f, 1));
+        public TweenSetting UpSetting = new TweenSetting(0.1f, false, AnimationCurve.Linear(0,0,1,1), Ease.OutQuad, new Vector3(1.02f, 1.02f, 1));
+        public bool NeedSecondUpSetting = true;
+        public TweenSetting SecondUpSetting = new TweenSetting(0.08f, false, AnimationCurve.Linear(0,0,1,1), Ease.OutQuad, new Vector3(1, 1, 1));
+        
         private Vector3 mStartScale;
         private Tween mTween;
         private bool mIsPress;
         private bool mIsStay;
         private bool mIsEnable = true;
 
-        private bool interactable => !m_Button || m_Button.interactable;
+        private bool mInteractable => !m_Button || m_Button.gameObject.activeSelf && m_Button.enabled && m_Button.interactable;
 
         public void Awake()
         {
@@ -63,7 +66,7 @@ namespace GameUtil
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (mIsPress || !mIsEnable || !interactable) return;
+            if (mIsPress || !mIsEnable || !mInteractable) return;
             mIsPress = true;
             DownAnim();
         }
@@ -77,7 +80,7 @@ namespace GameUtil
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (!mIsEnable || !interactable) return;
+            if (!mIsEnable || !mInteractable) return;
             mIsStay = true;
             if (mIsPress) DownAnim();
         }
@@ -96,19 +99,20 @@ namespace GameUtil
 
         private void DownAnim()
         {
-            Recover();
             AnimInternal(DownSetting);
         }
 
         private void UpAnim()
         {
             AnimInternal(UpSetting);
+            if (NeedSecondUpSetting)
+                mTween.OnComplete(() => { AnimInternal(SecondUpSetting); });
         }
 
         private void AnimInternal(TweenSetting setting)
         {
             KillTween();
-            mTween = m_ScaleTransform.DOScale(Vector3.Scale(setting.Scale, mStartScale), setting.Duration).SetUpdate(true);
+            mTween = m_ScaleTransform.DOScale(RelativeScale ? Vector3.Scale(setting.Scale, mStartScale) : setting.Scale, setting.Duration).SetUpdate(true);
             if (setting.UseCurve)
                 mTween.SetEase(setting.Curve);
             else

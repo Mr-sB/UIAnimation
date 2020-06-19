@@ -218,6 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ScaleTransform: {fileID: 0}
   m_Button: {fileID: 0}
+  RelativeScale: 1
   DownSetting:
     Duration: 0.15
     UseCurve: 0
@@ -249,6 +250,36 @@ MonoBehaviour:
     Scale: {x: 0.9, y: 0.9, z: 1}
   UpSetting:
     Duration: 0.15
+    UseCurve: 0
+    Curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EaseType: 6
+    Scale: {x: 1, y: 1, z: 1}
+  NeedSecondUpSetting: 1
+  SecondUpSetting:
+    Duration: 0.05
     UseCurve: 0
     Curve:
       serializedVersion: 2
@@ -1773,8 +1804,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ScaleTransform: {fileID: 0}
   m_Button: {fileID: 0}
+  RelativeScale: 1
   DownSetting:
-    Duration: 0.15
+    Duration: 0.1
     UseCurve: 0
     Curve:
       serializedVersion: 2
@@ -1801,9 +1833,39 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     EaseType: 6
-    Scale: {x: 0.9, y: 0.9, z: 1}
+    Scale: {x: 0.95, y: 0.95, z: 1}
   UpSetting:
-    Duration: 0.15
+    Duration: 0.1
+    UseCurve: 0
+    Curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    EaseType: 6
+    Scale: {x: 1.02, y: 1.02, z: 1}
+  NeedSecondUpSetting: 1
+  SecondUpSetting:
+    Duration: 0.08
     UseCurve: 0
     Curve:
       serializedVersion: 2
