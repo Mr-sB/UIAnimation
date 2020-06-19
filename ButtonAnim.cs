@@ -45,7 +45,7 @@ namespace GameUtil
 
         private bool mInteractable => !m_Button || m_Button.gameObject.activeSelf && m_Button.enabled && m_Button.interactable;
 
-        public void Awake()
+        private void Awake()
         {
             if (!m_Button)
                 m_Button = gameObject.GetComponent<Button>();
@@ -60,8 +60,13 @@ namespace GameUtil
             if (mIsEnable == enable) return;
             mIsEnable = enable;
             if (mIsEnable) return;
-            KillTween();
             Recover();
+        }
+        
+        public void Recover()
+        {
+            KillTween();
+            m_ScaleTransform.localScale = mStartScale;
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -90,11 +95,6 @@ namespace GameUtil
             if (!mIsPress || !mIsEnable || !mIsStay) return;
             mIsStay = false;
             UpAnim();
-        }
-
-        private void Recover()
-        {
-            m_ScaleTransform.localScale = mStartScale;
         }
 
         private void DownAnim()
