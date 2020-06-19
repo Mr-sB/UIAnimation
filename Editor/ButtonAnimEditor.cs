@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEditor.AnimatedValues;
 
@@ -11,7 +10,7 @@ namespace GameUtil.Editor
 
         private void OnEnable()
         {
-            mShowSecondUpSetting.value = serializedObject.FindProperty("NeedSecondUpSetting").boolValue;
+            mShowSecondUpSetting.value = serializedObject.FindProperty(nameof(ButtonAnim.NeedSecondUpSetting)).boolValue;
             mShowSecondUpSetting.valueChanged.AddListener(Repaint);
         }
 
@@ -23,25 +22,27 @@ namespace GameUtil.Editor
         public override void OnInspectorGUI()
         {
             EditorGUI.BeginChangeCheck();
-            serializedObject.Update();
-
-            using (new EditorGUI.DisabledScope(true))
+            serializedObject.UpdateIfRequiredOrScript();
+            SerializedProperty iterator = serializedObject.GetIterator();
+            for (bool enterChildren = true; iterator.NextVisible(enterChildren); enterChildren = false)
             {
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_Script"), true);
+                using (new EditorGUI.DisabledScope("m_Script" == iterator.propertyPath))
+                {
+                    if (iterator.propertyPath == nameof(ButtonAnim.NeedSecondUpSetting))
+                    {
+                        EditorGUILayout.PropertyField(iterator, true);
+                        mShowSecondUpSetting.target = iterator.boolValue;
+                    }
+                    else if (iterator.propertyPath == nameof(ButtonAnim.SecondUpSetting))
+                    {
+                        if (EditorGUILayout.BeginFadeGroup(mShowSecondUpSetting.faded))
+                            EditorGUILayout.PropertyField(iterator, true);
+                        EditorGUILayout.EndFadeGroup();
+                    }
+                    else
+                        EditorGUILayout.PropertyField(iterator, true);
+                }
             }
-
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("m_ScaleTransform"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("m_Button"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("RelativeScale"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("DownSetting"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("UpSetting"), true);
-            var needSecondUpSettingProperty = serializedObject.FindProperty("NeedSecondUpSetting");
-            EditorGUILayout.PropertyField(needSecondUpSettingProperty, true);
-            mShowSecondUpSetting.target = needSecondUpSettingProperty.boolValue;
-            if (EditorGUILayout.BeginFadeGroup(mShowSecondUpSetting.faded))
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("SecondUpSetting"), true);
-            EditorGUILayout.EndFadeGroup();
-            
             serializedObject.ApplyModifiedProperties();
             EditorGUI.EndChangeCheck();
         }
