@@ -97,12 +97,12 @@ namespace GameUtil
             UpAnim();
         }
 
-        private void DownAnim()
+        public void DownAnim()
         {
             AnimInternal(DownSetting);
         }
 
-        private void UpAnim()
+        public void UpAnim()
         {
             AnimInternal(UpSetting);
             if (NeedSecondUpSetting)
