@@ -28,19 +28,23 @@ namespace GameUtil.Editor
             {
                 using (new EditorGUI.DisabledScope("m_Script" == iterator.propertyPath))
                 {
-                    if (iterator.propertyPath == nameof(ButtonAnim.NeedSecondUpSetting))
+                    switch (iterator.propertyPath)
                     {
-                        EditorGUILayout.PropertyField(iterator, true);
-                        mShowSecondUpSetting.target = iterator.boolValue;
-                    }
-                    else if (iterator.propertyPath == nameof(ButtonAnim.SecondUpSetting))
-                    {
-                        if (EditorGUILayout.BeginFadeGroup(mShowSecondUpSetting.faded))
+                        case nameof(ButtonAnim.NeedSecondUpSetting):
                             EditorGUILayout.PropertyField(iterator, true);
-                        EditorGUILayout.EndFadeGroup();
+                            mShowSecondUpSetting.target = iterator.boolValue;
+                            break;
+                        case nameof(ButtonAnim.SecondUpSetting):
+                        {
+                            if (EditorGUILayout.BeginFadeGroup(mShowSecondUpSetting.faded))
+                                EditorGUILayout.PropertyField(iterator, true);
+                            EditorGUILayout.EndFadeGroup();
+                            break;
+                        }
+                        default:
+                            EditorGUILayout.PropertyField(iterator, true);
+                            break;
                     }
-                    else
-                        EditorGUILayout.PropertyField(iterator, true);
                 }
             }
             serializedObject.ApplyModifiedProperties();
