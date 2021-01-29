@@ -35,6 +35,7 @@ namespace GameUtil.Editor
                 var text = property.FindPropertyRelative(nameof(SingleTween.Text));
                 var textMeshProUGUI = property.FindPropertyRelative(nameof(SingleTween.TextMeshProUGUI));
                 var canvasGroup = property.FindPropertyRelative(nameof(SingleTween.CanvasGroup));
+                var rectTransform = property.FindPropertyRelative(nameof(SingleTween.RectTransform));
                 var overrideStartStatus = property.FindPropertyRelative(nameof(SingleTween.OverrideStartStatus));
                 var startPos = property.FindPropertyRelative(nameof(SingleTween.StartPos));
                 var endPos = property.FindPropertyRelative(nameof(SingleTween.EndPos));
@@ -79,6 +80,9 @@ namespace GameUtil.Editor
                     case SingleTween.TweenType.Canvas:
                         DrawTweenType(canvasGroup, overrideStartStatus, startAlpha, endAlpha);
                         break;
+                    case SingleTween.TweenType.AnchorPos3D:
+                        DrawTweenType(rectTransform, overrideStartStatus, startPos, endPos);
+                        break;
                 }
             }
             EditorGUI.indentLevel--;
@@ -112,6 +116,7 @@ namespace GameUtil.Editor
                 var text = property.FindPropertyRelative(nameof(SingleTween.Text));
                 var textMeshProUGUI = property.FindPropertyRelative(nameof(SingleTween.TextMeshProUGUI));
                 var canvasGroup = property.FindPropertyRelative(nameof(SingleTween.CanvasGroup));
+                var rectTransform = property.FindPropertyRelative(nameof(SingleTween.RectTransform));
                 var overrideStartStatus = property.FindPropertyRelative(nameof(SingleTween.OverrideStartStatus));
                 var startPos = property.FindPropertyRelative(nameof(SingleTween.StartPos));
                 var endPos = property.FindPropertyRelative(nameof(SingleTween.EndPos));
@@ -155,6 +160,9 @@ namespace GameUtil.Editor
                         break;
                     case SingleTween.TweenType.Canvas:
                         AddTweenType(canvasGroup, overrideStartStatus, startAlpha, endAlpha);
+                        break;
+                    case SingleTween.TweenType.AnchorPos3D:
+                        AddTweenType(rectTransform, overrideStartStatus, startPos, endPos);
                         break;
                 }
             }

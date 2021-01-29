@@ -18,6 +18,7 @@ namespace GameUtil
             Text,
             TextMeshProUGUI,
             Canvas,
+            AnchorPos3D,
         }
         
         public enum LinkType
@@ -43,6 +44,7 @@ namespace GameUtil
         public Text Text;
         public TextMeshProUGUI TextMeshProUGUI;
         public CanvasGroup CanvasGroup;
+        public RectTransform RectTransform;
         //Status
         public bool OverrideStartStatus;
         public Vector3 StartPos;
@@ -132,6 +134,19 @@ namespace GameUtil
                     }
                     mRecoverColor.a = CanvasGroup.alpha;
                     break;
+                case TweenType.AnchorPos3D:
+                    if (!RectTransform)
+                    {
+                        RectTransform = go.GetComponent<RectTransform>();
+                        if (!RectTransform)
+                        {
+                            IsValid = false;
+                            Debug.LogError("AnchorPosTween类型的UI动画，游戏物体上必须挂载RectTransform组件！");
+                            return;
+                        }
+                        mRecoverPos = RectTransform.anchoredPosition3D;
+                    }
+                    break;
                 default:
                     IsValid = false;
                     Debug.LogError("不存在的UI动画类型！");
@@ -171,6 +186,9 @@ namespace GameUtil
                 case TweenType.Canvas:
                     CanvasGroup.alpha = StartAlpha;
                     break;
+                case TweenType.AnchorPos3D:
+                    RectTransform.anchoredPosition3D = StartPos;
+                    break;
                 default:
                     Debug.LogError("不存在的UI动画类型！");
                     break;
@@ -205,6 +223,9 @@ namespace GameUtil
                     break;
                 case TweenType.Canvas:
                     result = CanvasGroup.DOFade(EndAlpha < 0 ? 1 : EndAlpha, Duration);
+                    break;
+                case TweenType.AnchorPos3D:
+                    result = RectTransform.DOAnchorPos3D(EndPos, Duration);
                     break;
                 default:
                     Debug.LogError("不存在的UI动画类型！");
@@ -248,6 +269,9 @@ namespace GameUtil
                     break;
                 case TweenType.Canvas:
                     CanvasGroup.alpha = mRecoverColor.a;
+                    break;
+                case TweenType.AnchorPos3D:
+                    RectTransform.anchoredPosition3D = mRecoverPos;
                     break;
                 default:
                     Debug.LogError("不存在的UI动画类型！");
