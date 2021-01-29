@@ -8,8 +8,15 @@ namespace GameUtil.Editor
     [CustomEditor(typeof(UIDOTween))]
     public class UIDOTweenDrawer : UnityEditor.Editor
     {
-        private const float ELEMENT_OFFSET_X = 5;
-        private const float ELEMENT_OFFSET_Y = 2;
+        private const float ELEMENT_OFFSET_X = 7;
+
+        private const float ELEMENT_OFFSET_Y =
+#if UNITY_2019_1_OR_NEWER
+                0
+#else
+                2
+#endif
+            ;
         private ReorderableList mStartSingleTweenReorderableList;
         private ReorderableList mCloseSingleTweenReorderableList;
 
