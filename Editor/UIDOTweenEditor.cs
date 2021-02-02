@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GameUtil.Editor
 {
     [CustomEditor(typeof(UIDOTween))]
-    public class UIDOTweenDrawer : UnityEditor.Editor
+    public class UIDOTweenEditor : UnityEditor.Editor
     {
         private const float ELEMENT_OFFSET_X = 7;
 
