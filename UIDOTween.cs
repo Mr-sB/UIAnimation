@@ -80,8 +80,11 @@ namespace GameUtil
                 mSequence = DOTween.Sequence().SetUpdate(UpdateType, IgnoreTimeScale);
                 foreach (var tween in tweens)
                 {
-                    if (tween.IsDelay && tween.Delay > 0)
-                        mSequence.AppendInterval(tween.Delay);
+                    if (tween.IsDelay)
+                    {
+                        if (tween.Delay > 0)
+                            mSequence.AppendInterval(tween.Delay);
+                    }
                     else
                     {
                         if(!tween.IsValid) continue;
@@ -164,8 +167,11 @@ namespace GameUtil
             float lastTweenInsertTime = 0;
             foreach (var tween in tweens)
             {
-                if (tween.IsDelay && tween.Delay > 0)
-                    duration += tween.Delay;
+                if (tween.IsDelay)
+                {
+                    if (tween.Delay > 0)
+                        duration += tween.Delay;
+                }
                 else
                 {
                     if (!tween.IsValid) continue;
