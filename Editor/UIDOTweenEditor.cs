@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -37,6 +38,7 @@ namespace GameUtil.Editor
             };
             mStartSingleTweenReorderableList.elementHeightCallback = index =>
                 EditorGUI.GetPropertyHeight(mStartSingleTweenReorderableList.serializedProperty.GetArrayElementAtIndex(index)) + ELEMENT_OFFSET_Y;
+            mStartSingleTweenReorderableList.onAddCallback = OnAddCallback;
             
             //CloseSingleTweenReorderableList
             mCloseSingleTweenReorderableList = new ReorderableList(serializedObject, serializedObject.FindProperty(nameof(UIDOTween.CloseSingleTweens)));
@@ -53,6 +55,7 @@ namespace GameUtil.Editor
             };
             mCloseSingleTweenReorderableList.elementHeightCallback = index =>
                 EditorGUI.GetPropertyHeight(mCloseSingleTweenReorderableList.serializedProperty.GetArrayElementAtIndex(index)) + ELEMENT_OFFSET_Y;
+            mCloseSingleTweenReorderableList.onAddCallback = OnAddCallback;
         }
 
         public override void OnInspectorGUI()
@@ -81,6 +84,15 @@ namespace GameUtil.Editor
             }
             serializedObject.ApplyModifiedProperties();
             EditorGUI.EndChangeCheck();
+        }
+
+        private static void OnAddCallback(ReorderableList list)
+        {
+            //Add at last
+            list.serializedProperty.InsertArrayElementAtIndex(list.count);
+            //Is first element, change EaseType to Ease.OutQuad(default)
+            if (list.count == 1)
+                list.serializedProperty.GetArrayElementAtIndex(0).FindPropertyRelative(nameof(SingleTween.EaseType)).intValue = (int) Ease.OutQuad;
         }
     }
 }
