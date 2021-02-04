@@ -211,10 +211,10 @@ namespace GameUtil
                     result = Transform.DOScale(EndScale, Duration);
                     break;
                 case TweenType.Image:
-                    result = Image.DOFade(EndAlpha < 0 ? 1 : EndAlpha, Duration);
+                    result = Image.DOFade(EndAlpha, Duration);
                     break;
                 case TweenType.Text:
-                    result = Text.DOFade(EndAlpha < 0 ? 1 : EndAlpha, Duration);
+                    result = Text.DOFade(EndAlpha, Duration);
                     break;
                 case TweenType.TextMeshProUGUI:
                     Color color = TextMeshProUGUI.color;
@@ -222,7 +222,7 @@ namespace GameUtil
                     result = DOTween.To(() => TextMeshProUGUI.color, x => TextMeshProUGUI.color = x, color, Duration);
                     break;
                 case TweenType.Canvas:
-                    result = CanvasGroup.DOFade(EndAlpha < 0 ? 1 : EndAlpha, Duration);
+                    result = CanvasGroup.DOFade(EndAlpha, Duration);
                     break;
                 case TweenType.AnchorPos3D:
                     result = RectTransform.DOAnchorPos3D(EndPos, Duration);
