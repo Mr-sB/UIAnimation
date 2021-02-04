@@ -3,7 +3,7 @@ using UnityEditor.AnimatedValues;
 
 namespace GameUtil.Editor
 {
-    [CustomEditor(typeof(ButtonAnim))]
+    [CustomEditor(typeof(ButtonAnim)), CanEditMultipleObjects]
     public class ButtonAnimEditor : UnityEditor.Editor
     {
         private AnimBool mShowSecondUpSetting = new AnimBool();
