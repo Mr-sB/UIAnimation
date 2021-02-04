@@ -54,8 +54,52 @@ namespace GameUtil.Editor
                 {
                     PropertyField(atPosition);
                 }
-
+                
+                var oldTweenType = (SingleTween.TweenType) mode.intValue;
                 PropertyField(mode);
+                var curTweenType = (SingleTween.TweenType) mode.intValue;
+                //Change TweenType, maybe need clear or parse component.
+                if (curTweenType != oldTweenType)
+                {
+                    switch (oldTweenType)
+                    {
+                        case SingleTween.TweenType.Move:
+                        case SingleTween.TweenType.Rotate:
+                        case SingleTween.TweenType.Scale:
+                            //Do not clear
+                            if (curTweenType == SingleTween.TweenType.Move || curTweenType == SingleTween.TweenType.Rotate ||
+                                curTweenType == SingleTween.TweenType.Scale)
+                                break;
+                            //Try parse
+                            else if (curTweenType == SingleTween.TweenType.AnchorPos3D)
+                            {
+                                if (transform.objectReferenceValue is RectTransform rect)
+                                    rectTransform.objectReferenceValue = rect;
+                            }
+                            //Clear
+                            transform.objectReferenceValue = null;
+                            break;
+                        case SingleTween.TweenType.Image:
+                            image.objectReferenceValue = null;
+                            break;
+                        case SingleTween.TweenType.Text:
+                            text.objectReferenceValue = null;
+                            break;
+                        case SingleTween.TweenType.TextMeshProUGUI:
+                            textMeshProUGUI.objectReferenceValue = null;
+                            break;
+                        case SingleTween.TweenType.Canvas:
+                            canvasGroup.objectReferenceValue = null;
+                            break;
+                        case SingleTween.TweenType.AnchorPos3D:
+                            //Parse
+                            if (curTweenType == SingleTween.TweenType.Move || curTweenType == SingleTween.TweenType.Rotate ||
+                                curTweenType == SingleTween.TweenType.Scale)
+                                transform.objectReferenceValue = rectTransform.objectReferenceValue;
+                            rectTransform.objectReferenceValue = null;
+                            break;
+                    }
+                }
                 
                 switch ((SingleTween.TweenType) mode.intValue)
                 {
