@@ -1,12 +1,10 @@
-using System;
 using DG.Tweening;
 using UnityEditor;
 using UnityEditorInternal;
-using UnityEngine;
 
 namespace GameUtil.Editor
 {
-    [CustomEditor(typeof(UIDOTween))]
+    [CustomEditor(typeof(UIDOTween)), CanEditMultipleObjects]
     public class UIDOTweenEditor : UnityEditor.Editor
     {
         private const float ELEMENT_OFFSET_X = 7;
