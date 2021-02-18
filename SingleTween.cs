@@ -379,16 +379,29 @@ namespace GameUtil
             }
 
             Color color;
+            Transform transform;
             switch (Mode)
             {
                 case TweenType.Move:
-                    (Transform != null ? Transform : go.transform).localPosition = StartPos;
+                    transform = Transform != null ? Transform : go.transform;
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(transform, transform.name);
+#endif
+                    transform.localPosition = StartPos;
                     break;
                 case TweenType.Rotate:
-                    (Transform != null ? Transform : go.transform).localEulerAngles = StartRotation;
+                    transform = Transform != null ? Transform : go.transform;
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(transform, transform.name);
+#endif
+                    transform.localEulerAngles = StartRotation;
                     break;
                 case TweenType.Scale:
-                    (Transform != null ? Transform : go.transform).localScale = StartScale;
+                    transform = Transform != null ? Transform : go.transform;
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(transform, transform.name);
+#endif
+                    transform.localScale = StartScale;
                     break;
                 case TweenType.Image:
                     var image = Image;
@@ -401,6 +414,9 @@ namespace GameUtil
                             return;
                         }
                     }
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(image, image.name);
+#endif
                     color = image.color;
                     color.a = StartAlpha;
                     image.color = color;
@@ -416,6 +432,9 @@ namespace GameUtil
                             return;
                         }
                     }
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(text, text.name);
+#endif
                     color = text.color;
                     color.a = StartAlpha;
                     text.color = color;
@@ -431,6 +450,9 @@ namespace GameUtil
                             return;
                         }
                     }
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(textMeshProUGUI, textMeshProUGUI.name);
+#endif
                     color = textMeshProUGUI.color;
                     color.a = StartAlpha;
                     textMeshProUGUI.color = color;
@@ -443,6 +465,9 @@ namespace GameUtil
                         if (!canvasGroup)
                             canvasGroup = go.AddComponent<CanvasGroup>();
                     }
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(canvasGroup, canvasGroup.name);
+#endif
                     canvasGroup.alpha = StartAlpha;
                     break;
                 case TweenType.AnchorPos3D:
@@ -456,6 +481,9 @@ namespace GameUtil
                             return;
                         }
                     }
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(rectTransform, rectTransform.name);
+#endif
                     rectTransform.anchoredPosition3D = StartPos;
                     break;
                 default:
@@ -559,16 +587,29 @@ namespace GameUtil
             }
 
             Color color;
+            Transform transform;
             switch (Mode)
             {
                 case TweenType.Move:
-                    (Transform != null ? Transform : go.transform).localPosition = EndPos;
+                    transform = Transform != null ? Transform : go.transform;
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(transform, transform.name);
+#endif
+                    transform.localPosition = EndPos;
                     break;
                 case TweenType.Rotate:
-                    (Transform != null ? Transform : go.transform).localEulerAngles = EndRotation;
+                    transform = Transform != null ? Transform : go.transform;
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(transform, transform.name);
+#endif
+                    transform.localEulerAngles = EndRotation;
                     break;
                 case TweenType.Scale:
-                    (Transform != null ? Transform : go.transform).localScale = EndScale;
+                    transform = Transform != null ? Transform : go.transform;
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(transform, transform.name);
+#endif
+                    transform.localScale = EndScale;
                     break;
                 case TweenType.Image:
                     var image = Image;
@@ -581,6 +622,9 @@ namespace GameUtil
                             return;
                         }
                     }
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(image, image.name);
+#endif
                     color = image.color;
                     color.a = EndAlpha;
                     image.color = color;
@@ -596,6 +640,9 @@ namespace GameUtil
                             return;
                         }
                     }
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(text, text.name);
+#endif
                     color = text.color;
                     color.a = EndAlpha;
                     text.color = color;
@@ -611,6 +658,9 @@ namespace GameUtil
                             return;
                         }
                     }
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(textMeshProUGUI, textMeshProUGUI.name);
+#endif
                     color = textMeshProUGUI.color;
                     color.a = EndAlpha;
                     textMeshProUGUI.color = color;
@@ -623,6 +673,9 @@ namespace GameUtil
                         if (!canvasGroup)
                             canvasGroup = go.AddComponent<CanvasGroup>();
                     }
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(canvasGroup, canvasGroup.name);
+#endif
                     canvasGroup.alpha = EndAlpha;
                     break;
                 case TweenType.AnchorPos3D:
@@ -636,6 +689,9 @@ namespace GameUtil
                             return;
                         }
                     }
+#if UNITY_EDITOR
+                    UnityEditor.Undo.RecordObject(rectTransform, rectTransform.name);
+#endif
                     rectTransform.anchoredPosition3D = EndPos;
                     break;
                 default:

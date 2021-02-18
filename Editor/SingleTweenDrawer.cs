@@ -165,18 +165,24 @@ namespace GameUtil.Editor
                     var buttonPosition = startStatusRect;
                     buttonPosition.width = (buttonPosition.width - 2) / 2;
                     if (GUI.Button(buttonPosition, nameof(SingleTween.CopyStartStatus)))
+                    {
+                        Undo.RecordObject(property.serializedObject.targetObject, "Record UIDOTween");
                         (GetObject(property) as SingleTween)?.CopyStartStatus(gameObject);
+                    }
                     buttonPosition.x = buttonPosition.xMax + 2;
                     if (GUI.Button(buttonPosition, nameof(SingleTween.PasteStartStatus)))
-                        (GetObject(property) as SingleTween)?.PasteStartStatus(gameObject);
+                        (GetObject(property) as SingleTween)?.PasteStartStatus(gameObject);//Record inside method
 
                     buttonPosition = endStatusRect;
                     buttonPosition.width = (buttonPosition.width - 2) / 2;
                     if (GUI.Button(buttonPosition, nameof(SingleTween.CopyEndStatus)))
+                    {
+                        Undo.RecordObject(property.serializedObject.targetObject, "Record UIDOTween");
                         (GetObject(property) as SingleTween)?.CopyEndStatus(gameObject);
+                    }
                     buttonPosition.x = buttonPosition.xMax + 2;
                     if (GUI.Button(buttonPosition, nameof(SingleTween.PasteEndStatus)))
-                        (GetObject(property) as SingleTween)?.PasteEndStatus(gameObject);
+                        (GetObject(property) as SingleTween)?.PasteEndStatus(gameObject);//Record inside method
                 }
             }
             EditorGUI.indentLevel--;
