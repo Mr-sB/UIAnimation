@@ -31,6 +31,7 @@ namespace GameUtil
 #if UNITY_EDITOR
         //Only for editor display
         [SerializeField] private string Name;
+        [SerializeField] private bool HideButton;
 #endif
         [Tooltip("Special. Do nothing except delay")]
         public bool IsDelay;
@@ -72,21 +73,21 @@ namespace GameUtil
         public void Bind(GameObject go)
         {
             IsValid = true;
-            if(IsDelay) return;
+            if (IsDelay) return;
             switch (Mode)
             {
                 case TweenType.Move:
-                    if(!Transform)
+                    if (!Transform)
                         Transform = go.transform;
                     mRecoverPos = Transform.localPosition;
                     break;
                 case TweenType.Rotate:
-                    if(!Transform)
+                    if (!Transform)
                         Transform = go.transform;
                     mRecoverRotation = Transform.localEulerAngles;
                     break;
                 case TweenType.Scale:
-                    if(!Transform)
+                    if (!Transform)
                         Transform = go.transform;
                     mRecoverScale = Transform.localScale;
                     break;
@@ -148,8 +149,8 @@ namespace GameUtil
                             Debug.LogError("AnchorPosTween类型的UI动画，游戏物体上必须挂载RectTransform组件！");
                             return;
                         }
-                        mRecoverPos = RectTransform.anchoredPosition3D;
                     }
+                    mRecoverPos = RectTransform.anchoredPosition3D;
                     break;
                 default:
                     IsValid = false;
@@ -160,7 +161,7 @@ namespace GameUtil
 
         public void SetStartStatus()
         {
-            if(IsDelay || !IsValid || !OverrideStartStatus) return;
+            if (IsDelay || !IsValid || !OverrideStartStatus) return;
             switch (Mode)
             {
                 case TweenType.Move:
@@ -276,6 +277,366 @@ namespace GameUtil
                     break;
                 case TweenType.AnchorPos3D:
                     RectTransform.anchoredPosition3D = mRecoverPos;
+                    break;
+                default:
+                    Debug.LogError("不存在的UI动画类型！");
+                    break;
+            }
+        }
+
+        public void CopyStartStatus(GameObject go)
+        {
+            if (IsDelay || !OverrideStartStatus)
+            {
+                Debug.LogWarning("No need Copy Start Status From Component.");
+                return;
+            }
+            switch (Mode)
+            {
+                case TweenType.Move:
+                    StartPos = (Transform != null ? Transform : go.transform).localPosition;
+                    break;
+                case TweenType.Rotate:
+                    StartRotation = (Transform != null ? Transform : go.transform).localEulerAngles;
+                    break;
+                case TweenType.Scale:
+                    StartScale = (Transform != null ? Transform : go.transform).localScale;
+                    break;
+                case TweenType.Image:
+                    var image = Image;
+                    if (!image)
+                    {
+                        image = go.GetComponent<Image>();
+                        if (!image)
+                        {
+                            Debug.LogError("ImageTween类型的UI动画，游戏物体上必须挂载Image组件！");
+                            return;
+                        }
+                    }
+                    StartAlpha = image.color.a;
+                    break;
+                case TweenType.Text:
+                    var text = Text;
+                    if (!text)
+                    {
+                        text = go.GetComponent<Text>();
+                        if (!text)
+                        {
+                            Debug.LogError("TextTween类型的UI动画，游戏物体上必须挂载Text组件！");
+                            return;
+                        }
+                    }
+                    StartAlpha = text.color.a;
+                    break;
+                case TweenType.TextMeshProUGUI:
+                    var textMeshProUGUI = TextMeshProUGUI;
+                    if (!textMeshProUGUI)
+                    {
+                        textMeshProUGUI = go.GetComponent<TextMeshProUGUI>();
+                        if (!textMeshProUGUI)
+                        {
+                            Debug.LogError("TextMeshPropTween类型的UI动画，游戏物体上必须挂载TextMeshPropTween组件！");
+                            return;
+                        }
+                    }
+                    StartAlpha = textMeshProUGUI.color.a;
+                    break;
+                case TweenType.Canvas:
+                    var canvasGroup = CanvasGroup;
+                    if (!canvasGroup)
+                    {
+                        canvasGroup = go.GetComponent<CanvasGroup>();
+                        if (!canvasGroup)
+                            canvasGroup = go.AddComponent<CanvasGroup>();
+                    }
+                    StartAlpha = canvasGroup.alpha;
+                    break;
+                case TweenType.AnchorPos3D:
+                    var rectTransform = RectTransform;
+                    if (!rectTransform)
+                    {
+                        rectTransform = go.GetComponent<RectTransform>();
+                        if (!rectTransform)
+                        {
+                            Debug.LogError("AnchorPosTween类型的UI动画，游戏物体上必须挂载RectTransform组件！");
+                            return;
+                        }
+                    }
+                    StartPos = rectTransform.anchoredPosition3D;
+                    break;
+                default:
+                    Debug.LogError("不存在的UI动画类型！");
+                    break;
+            }
+        }
+
+        public void PasteStartStatus(GameObject go)
+        {
+            if (IsDelay || !OverrideStartStatus)
+            {
+                Debug.LogWarning("Can not Paste Start Status To Component.");
+                return;
+            }
+
+            Color color;
+            switch (Mode)
+            {
+                case TweenType.Move:
+                    (Transform != null ? Transform : go.transform).localPosition = StartPos;
+                    break;
+                case TweenType.Rotate:
+                    (Transform != null ? Transform : go.transform).localEulerAngles = StartRotation;
+                    break;
+                case TweenType.Scale:
+                    (Transform != null ? Transform : go.transform).localScale = StartScale;
+                    break;
+                case TweenType.Image:
+                    var image = Image;
+                    if (!image)
+                    {
+                        image = go.GetComponent<Image>();
+                        if (!image)
+                        {
+                            Debug.LogError("ImageTween类型的UI动画，游戏物体上必须挂载Image组件！");
+                            return;
+                        }
+                    }
+                    color = image.color;
+                    color.a = StartAlpha;
+                    image.color = color;
+                    break;
+                case TweenType.Text:
+                    var text = Text;
+                    if (!text)
+                    {
+                        text = go.GetComponent<Text>();
+                        if (!text)
+                        {
+                            Debug.LogError("TextTween类型的UI动画，游戏物体上必须挂载Text组件！");
+                            return;
+                        }
+                    }
+                    color = text.color;
+                    color.a = StartAlpha;
+                    text.color = color;
+                    break;
+                case TweenType.TextMeshProUGUI:
+                    var textMeshProUGUI = TextMeshProUGUI;
+                    if (!textMeshProUGUI)
+                    {
+                        textMeshProUGUI = go.GetComponent<TextMeshProUGUI>();
+                        if (!textMeshProUGUI)
+                        {
+                            Debug.LogError("TextMeshPropTween类型的UI动画，游戏物体上必须挂载TextMeshPropTween组件！");
+                            return;
+                        }
+                    }
+                    color = textMeshProUGUI.color;
+                    color.a = StartAlpha;
+                    textMeshProUGUI.color = color;
+                    break;
+                case TweenType.Canvas:
+                    var canvasGroup = CanvasGroup;
+                    if (!canvasGroup)
+                    {
+                        canvasGroup = go.GetComponent<CanvasGroup>();
+                        if (!canvasGroup)
+                            canvasGroup = go.AddComponent<CanvasGroup>();
+                    }
+                    canvasGroup.alpha = StartAlpha;
+                    break;
+                case TweenType.AnchorPos3D:
+                    var rectTransform = RectTransform;
+                    if (!rectTransform)
+                    {
+                        rectTransform = go.GetComponent<RectTransform>();
+                        if (!rectTransform)
+                        {
+                            Debug.LogError("AnchorPosTween类型的UI动画，游戏物体上必须挂载RectTransform组件！");
+                            return;
+                        }
+                    }
+                    rectTransform.anchoredPosition3D = StartPos;
+                    break;
+                default:
+                    Debug.LogError("不存在的UI动画类型！");
+                    break;
+            }
+        }
+        
+        public void CopyEndStatus(GameObject go)
+        {
+            if (IsDelay)
+            {
+                Debug.LogWarning("No need Copy End Status From Component.");
+                return;
+            }
+            switch (Mode)
+            {
+                case TweenType.Move:
+                    EndPos = (Transform != null ? Transform : go.transform).localPosition;
+                    break;
+                case TweenType.Rotate:
+                    EndRotation = (Transform != null ? Transform : go.transform).localEulerAngles;
+                    break;
+                case TweenType.Scale:
+                    EndScale = (Transform != null ? Transform : go.transform).localScale;
+                    break;
+                case TweenType.Image:
+                    var image = Image;
+                    if (!image)
+                    {
+                        image = go.GetComponent<Image>();
+                        if (!image)
+                        {
+                            Debug.LogError("ImageTween类型的UI动画，游戏物体上必须挂载Image组件！");
+                            return;
+                        }
+                    }
+                    EndAlpha = image.color.a;
+                    break;
+                case TweenType.Text:
+                    var text = Text;
+                    if (!text)
+                    {
+                        text = go.GetComponent<Text>();
+                        if (!text)
+                        {
+                            Debug.LogError("TextTween类型的UI动画，游戏物体上必须挂载Text组件！");
+                            return;
+                        }
+                    }
+                    EndAlpha = text.color.a;
+                    break;
+                case TweenType.TextMeshProUGUI:
+                    var textMeshProUGUI = TextMeshProUGUI;
+                    if (!textMeshProUGUI)
+                    {
+                        textMeshProUGUI = go.GetComponent<TextMeshProUGUI>();
+                        if (!textMeshProUGUI)
+                        {
+                            Debug.LogError("TextMeshPropTween类型的UI动画，游戏物体上必须挂载TextMeshPropTween组件！");
+                            return;
+                        }
+                    }
+                    EndAlpha = textMeshProUGUI.color.a;
+                    break;
+                case TweenType.Canvas:
+                    var canvasGroup = CanvasGroup;
+                    if (!canvasGroup)
+                    {
+                        canvasGroup = go.GetComponent<CanvasGroup>();
+                        if (!canvasGroup)
+                            canvasGroup = go.AddComponent<CanvasGroup>();
+                    }
+                    EndAlpha = canvasGroup.alpha;
+                    break;
+                case TweenType.AnchorPos3D:
+                    var rectTransform = RectTransform;
+                    if (!rectTransform)
+                    {
+                        rectTransform = go.GetComponent<RectTransform>();
+                        if (!rectTransform)
+                        {
+                            Debug.LogError("AnchorPosTween类型的UI动画，游戏物体上必须挂载RectTransform组件！");
+                            return;
+                        }
+                    }
+                    EndPos = rectTransform.anchoredPosition3D;
+                    break;
+                default:
+                    Debug.LogError("不存在的UI动画类型！");
+                    break;
+            }
+        }
+
+        public void PasteEndStatus(GameObject go)
+        {
+            if (IsDelay)
+            {
+                Debug.LogWarning("Can not Paste End Status To Component.");
+                return;
+            }
+
+            Color color;
+            switch (Mode)
+            {
+                case TweenType.Move:
+                    (Transform != null ? Transform : go.transform).localPosition = EndPos;
+                    break;
+                case TweenType.Rotate:
+                    (Transform != null ? Transform : go.transform).localEulerAngles = EndRotation;
+                    break;
+                case TweenType.Scale:
+                    (Transform != null ? Transform : go.transform).localScale = EndScale;
+                    break;
+                case TweenType.Image:
+                    var image = Image;
+                    if (!image)
+                    {
+                        image = go.GetComponent<Image>();
+                        if (!image)
+                        {
+                            Debug.LogError("ImageTween类型的UI动画，游戏物体上必须挂载Image组件！");
+                            return;
+                        }
+                    }
+                    color = image.color;
+                    color.a = EndAlpha;
+                    image.color = color;
+                    break;
+                case TweenType.Text:
+                    var text = Text;
+                    if (!text)
+                    {
+                        text = go.GetComponent<Text>();
+                        if (!text)
+                        {
+                            Debug.LogError("TextTween类型的UI动画，游戏物体上必须挂载Text组件！");
+                            return;
+                        }
+                    }
+                    color = text.color;
+                    color.a = EndAlpha;
+                    text.color = color;
+                    break;
+                case TweenType.TextMeshProUGUI:
+                    var textMeshProUGUI = TextMeshProUGUI;
+                    if (!textMeshProUGUI)
+                    {
+                        textMeshProUGUI = go.GetComponent<TextMeshProUGUI>();
+                        if (!textMeshProUGUI)
+                        {
+                            Debug.LogError("TextMeshPropTween类型的UI动画，游戏物体上必须挂载TextMeshPropTween组件！");
+                            return;
+                        }
+                    }
+                    color = textMeshProUGUI.color;
+                    color.a = EndAlpha;
+                    textMeshProUGUI.color = color;
+                    break;
+                case TweenType.Canvas:
+                    var canvasGroup = CanvasGroup;
+                    if (!canvasGroup)
+                    {
+                        canvasGroup = go.GetComponent<CanvasGroup>();
+                        if (!canvasGroup)
+                            canvasGroup = go.AddComponent<CanvasGroup>();
+                    }
+                    canvasGroup.alpha = EndAlpha;
+                    break;
+                case TweenType.AnchorPos3D:
+                    var rectTransform = RectTransform;
+                    if (!rectTransform)
+                    {
+                        rectTransform = go.GetComponent<RectTransform>();
+                        if (!rectTransform)
+                        {
+                            Debug.LogError("AnchorPosTween类型的UI动画，游戏物体上必须挂载RectTransform组件！");
+                            return;
+                        }
+                    }
+                    rectTransform.anchoredPosition3D = EndPos;
                     break;
                 default:
                     Debug.LogError("不存在的UI动画类型！");

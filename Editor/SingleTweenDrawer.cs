@@ -1,4 +1,7 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections;
+using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 
 namespace GameUtil.Editor
@@ -6,6 +9,7 @@ namespace GameUtil.Editor
     [CustomPropertyDrawer(typeof(SingleTween))]
     public class SingleTweenDrawer : PropertyDrawerBase
     {
+        private const int SWITCH_BUTTON_WIDTH = 72;
         private GUIContent mGUIContent;
         
         public override void OnGUI(Rect position,  SerializedProperty property, GUIContent label)
@@ -14,6 +18,7 @@ namespace GameUtil.Editor
             if (mGUIContent == null)
                 mGUIContent = new GUIContent();
             var name = property.FindPropertyRelative("Name");
+            var hideButton = property.FindPropertyRelative("HideButton");
             var isDelay = property.FindPropertyRelative(nameof(SingleTween.IsDelay));
             var delay = property.FindPropertyRelative(nameof(SingleTween.Delay));
             var duration = property.FindPropertyRelative(nameof(SingleTween.Duration));
@@ -24,7 +29,19 @@ namespace GameUtil.Editor
                     ? $" Delay duration:{delay.floatValue}"
                     : $" {linkType}{(linkType == SingleTween.LinkType.Insert ? " at:" + atPosition.floatValue : "")} duration:{duration.floatValue}"
                 );
-            if (!PropertyField(property, mGUIContent, false)) return;
+            //Draw element
+            var elementPosition = GetPropertyRect(property);
+            elementPosition.width -= SWITCH_BUTTON_WIDTH;
+            bool expand = EditorGUI.PropertyField(elementPosition, property, mGUIContent, false);
+            //Draw hide/show button
+            if (!isDelay.boolValue)
+            {
+                hideButton.boolValue = GUI.Toggle(
+                    new Rect(position.xMax - SWITCH_BUTTON_WIDTH, position.y, SWITCH_BUTTON_WIDTH, EditorGUIUtility.singleLineHeight),
+                    hideButton.boolValue, "HideButton", GUI.skin.button);
+            }
+
+            if (!expand) return;
 
             EditorGUI.indentLevel++;
             PropertyField(name);
@@ -137,6 +154,30 @@ namespace GameUtil.Editor
                         DrawTweenType(rectTransform, overrideStartStatus, startPos, endPos);
                         break;
                 }
+                
+                //Draw Buttons
+                if (!hideButton.boolValue)
+                {
+                    GameObject gameObject = (property.serializedObject.targetObject as Component)?.gameObject;
+                    var startStatusRect = EditorGUI.IndentedRect(GetRect(EditorGUIUtility.singleLineHeight));
+                    var endStatusRect = EditorGUI.IndentedRect(GetRect(EditorGUIUtility.singleLineHeight));
+
+                    var buttonPosition = startStatusRect;
+                    buttonPosition.width = (buttonPosition.width - 2) / 2;
+                    if (GUI.Button(buttonPosition, nameof(SingleTween.CopyStartStatus)))
+                        (GetObject(property) as SingleTween)?.CopyStartStatus(gameObject);
+                    buttonPosition.x = buttonPosition.xMax + 2;
+                    if (GUI.Button(buttonPosition, nameof(SingleTween.PasteStartStatus)))
+                        (GetObject(property) as SingleTween)?.PasteStartStatus(gameObject);
+
+                    buttonPosition = endStatusRect;
+                    buttonPosition.width = (buttonPosition.width - 2) / 2;
+                    if (GUI.Button(buttonPosition, nameof(SingleTween.CopyEndStatus)))
+                        (GetObject(property) as SingleTween)?.CopyEndStatus(gameObject);
+                    buttonPosition.x = buttonPosition.xMax + 2;
+                    if (GUI.Button(buttonPosition, nameof(SingleTween.PasteEndStatus)))
+                        (GetObject(property) as SingleTween)?.PasteEndStatus(gameObject);
+                }
             }
             EditorGUI.indentLevel--;
         }
@@ -159,6 +200,7 @@ namespace GameUtil.Editor
             }
             else
             {
+                var hideButton = property.FindPropertyRelative("HideButton");
                 var duration = property.FindPropertyRelative(nameof(SingleTween.Duration));
                 var useCurve = property.FindPropertyRelative(nameof(SingleTween.UseCurve));
                 var curve = property.FindPropertyRelative(nameof(SingleTween.Curve));
@@ -220,6 +262,10 @@ namespace GameUtil.Editor
                         AddTweenType(rectTransform, overrideStartStatus, startPos, endPos);
                         break;
                 }
+                
+                //Buttons Height
+                if (!hideButton.boolValue)
+                    mAllHeight += (EditorGUIUtility.singleLineHeight + 2) * 2;
             }
             return mAllHeight - 2;
         }
@@ -240,6 +286,40 @@ namespace GameUtil.Editor
             if (overrideStartStatus.boolValue)
                 AddPropertyHeight(start);
             AddPropertyHeight(end);
+        }
+        
+        
+        private const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
+
+        //根据SerializedProperty查找到其对应的对象引用
+        public static object GetObject(SerializedProperty property)
+        {
+            //从最外层的property.serializedObject.targetObject(继承自UnityEngine.Object)的对象一层一层的找到目前需要绘制的对象
+            string[] array = property.propertyPath.Replace("Array.data", "*Array").Split('.');
+            object obj = property.serializedObject.targetObject;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (!array[i].StartsWith("*Array"))
+                    obj = GetFieldInfoIncludeBase(obj.GetType(), array[i]).GetValue(obj);
+                else
+                {
+                    int index = int.Parse(array[i].Substring(7, array[i].Length - 8));
+                    obj = (obj as IList)[index];
+                }
+            }
+            return obj;
+        }
+        
+        //由于Type.GetField似乎不会查找到父类的私有字段，所以循环查找一下
+        public static FieldInfo GetFieldInfoIncludeBase(Type type, string fieldName, BindingFlags bindingFlags = bindingFlags)
+        {
+            FieldInfo fieldInfo = null;
+            while (fieldInfo == null && type != null)
+            {
+                fieldInfo = type.GetField(fieldName, bindingFlags);
+                type = type.BaseType;
+            }
+            return fieldInfo;
         }
     }
 }

@@ -461,6 +461,7 @@ MonoBehaviour:
   IgnoreTimeScale: 1
   StartSingleTweens:
   - Name: Move1
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -491,6 +492,7 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   - Name: Move2
+    HideButton: 1
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -522,6 +524,7 @@ MonoBehaviour:
     EndAlpha: 0
   CloseSingleTweens:
   - Name: ImageFade1
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -552,6 +555,7 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   - Name: ImageFade2
+    HideButton: 1
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -796,6 +800,7 @@ MonoBehaviour:
   IgnoreTimeScale: 1
   StartSingleTweens:
   - Name: 
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -826,6 +831,7 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   - Name: 
+    HideButton: 0
     IsDelay: 1
     Delay: 1
     Duration: 1
@@ -856,6 +862,7 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   - Name: 
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -943,6 +950,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 562833791}
   m_CullTransparentMesh: 0
+--- !u!1 &784263709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 784263711}
+  - component: {fileID: 784263710}
+  m_Layer: 0
+  m_Name: CommonPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &784263710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784263709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0510cff800ea4f28a2da9de1d72a0ed3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &784263711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784263709}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &891323791
 GameObject:
   m_ObjectHideFlags: 0
@@ -999,6 +1049,7 @@ MonoBehaviour:
   IgnoreTimeScale: 1
   StartSingleTweens:
   - Name: 
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -1029,6 +1080,7 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   - Name: 
+    HideButton: 0
     IsDelay: 1
     Delay: 1
     Duration: 0
@@ -1059,6 +1111,7 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   - Name: 
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -1089,6 +1142,7 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   - Name: 
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -1120,6 +1174,7 @@ MonoBehaviour:
     EndAlpha: 0.5
   CloseSingleTweens:
   - Name: 
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -1330,6 +1385,7 @@ MonoBehaviour:
   IgnoreTimeScale: 1
   StartSingleTweens:
   - Name: 
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -1360,6 +1416,7 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   - Name: 
+    HideButton: 0
     IsDelay: 1
     Delay: 1
     Duration: 0
@@ -1390,6 +1447,7 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   - Name: 
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -1420,6 +1478,7 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   - Name: 
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -1447,9 +1506,10 @@ MonoBehaviour:
     EndRotation: {x: 0, y: 0, z: 0}
     StartScale: {x: 0, y: 0, z: 0}
     EndScale: {x: 0, y: 0, z: 0}
-    StartAlpha: 0
+    StartAlpha: 1
     EndAlpha: 0.5
   - Name: 
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 0
@@ -1481,6 +1541,7 @@ MonoBehaviour:
     EndAlpha: 0
   CloseSingleTweens:
   - Name: 
+    HideButton: 0
     IsDelay: 0
     Delay: 0
     Duration: 1
@@ -1506,8 +1567,8 @@ MonoBehaviour:
     EndPos: {x: 0, y: 0, z: 0}
     StartRotation: {x: 0, y: 0, z: 0}
     EndRotation: {x: 0, y: 0, z: 0}
-    StartScale: {x: 0, y: 0, z: 0}
-    EndScale: {x: 0, y: 0, z: 0}
+    StartScale: {x: 1, y: 1, z: 1}
+    EndScale: {x: 1, y: 1, z: 1}
     StartAlpha: 0
     EndAlpha: 0
   OnStartBeforeAnim:

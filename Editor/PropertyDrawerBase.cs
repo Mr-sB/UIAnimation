@@ -14,13 +14,18 @@ namespace GameUtil.Editor
             mPosition = position;
             mLastHeight = -2;
         }
+
+        protected Rect GetRect(float height)
+        {
+            mPosition.y += mLastHeight + 2;//add 2 pixel height
+            mLastHeight = height;
+            mPosition.height = mLastHeight;
+            return mPosition;
+        }
         
         protected Rect GetPropertyRect(SerializedProperty property, bool includeChildren = false)
         {
-            mPosition.y += mLastHeight + 2;//add 2 pixel height
-            mLastHeight = EditorGUI.GetPropertyHeight(property, includeChildren);
-            mPosition.height = mLastHeight;
-            return mPosition;
+            return GetRect(EditorGUI.GetPropertyHeight(property, includeChildren));
         }
 
         protected bool PropertyField(SerializedProperty property, bool includeChildren = false)

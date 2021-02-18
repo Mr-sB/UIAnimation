@@ -9,5 +9,6 @@ Add `ButtonAnim` to a GameObject, then you can set animation status in inspector
 ## UIDOTween
 Add `UIDOTween` to an UI GameObject, then you can set Open and Close animation status in inspector. You can call `DoStartTween` and `DoCloseTween` methods to play Open and Close animation.
 
+![image](https://github.com/Mr-sB/UIAnimation/blob/master/Screenshots/Inspector.png)
 # Note
 All animations are require [DOTween](http://dotween.demigiant.com/) plugin.
