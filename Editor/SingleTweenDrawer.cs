@@ -9,7 +9,7 @@ namespace GameUtil.Editor
     [CustomPropertyDrawer(typeof(SingleTween))]
     public class SingleTweenDrawer : PropertyDrawerBase
     {
-        private const int SWITCH_BUTTON_WIDTH = 72;
+        private const int SWITCH_BUTTON_WIDTH = 75;
         private GUIContent mGUIContent;
         
         public override void OnGUI(Rect position,  SerializedProperty property, GUIContent label)
