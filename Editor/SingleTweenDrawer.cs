@@ -6,16 +6,28 @@ namespace GameUtil.Editor
     [CustomPropertyDrawer(typeof(SingleTween))]
     public class SingleTweenDrawer : PropertyDrawerBase
     {
+        private GUIContent mGUIContent;
+        
         public override void OnGUI(Rect position,  SerializedProperty property, GUIContent label)
         {
             Init(position);
-            
-            if (!PropertyField(property, label, false)) return;
-            
+            if (mGUIContent == null)
+                mGUIContent = new GUIContent();
+            var name = property.FindPropertyRelative("Name");
             var isDelay = property.FindPropertyRelative(nameof(SingleTween.IsDelay));
             var delay = property.FindPropertyRelative(nameof(SingleTween.Delay));
+            var duration = property.FindPropertyRelative(nameof(SingleTween.Duration));
+            var tweenerLinkType = property.FindPropertyRelative(nameof(SingleTween.TweenerLinkType));
+            var atPosition = property.FindPropertyRelative(nameof(SingleTween.AtPosition));
+            var linkType = (SingleTween.LinkType) tweenerLinkType.intValue;
+            mGUIContent.text = name.stringValue + (isDelay.boolValue
+                    ? $" Delay duration:{delay.floatValue}"
+                    : $" {linkType}{(linkType == SingleTween.LinkType.Insert ? " at:" + atPosition.floatValue : "")} duration:{duration.floatValue}"
+                );
+            if (!PropertyField(property, mGUIContent, false)) return;
 
             EditorGUI.indentLevel++;
+            PropertyField(name);
             PropertyField(isDelay);
             if (isDelay.boolValue)
             {
@@ -23,12 +35,9 @@ namespace GameUtil.Editor
             }
             else
             {
-                var duration = property.FindPropertyRelative(nameof(SingleTween.Duration));
                 var useCurve = property.FindPropertyRelative(nameof(SingleTween.UseCurve));
                 var curve = property.FindPropertyRelative(nameof(SingleTween.Curve));
                 var easeType = property.FindPropertyRelative(nameof(SingleTween.EaseType));
-                var tweenerLinkType = property.FindPropertyRelative(nameof(SingleTween.TweenerLinkType));
-                var atPosition = property.FindPropertyRelative(nameof(SingleTween.AtPosition));
                 var mode = property.FindPropertyRelative(nameof(SingleTween.Mode));
                 var transform = property.FindPropertyRelative(nameof(SingleTween.Transform));
                 var image = property.FindPropertyRelative(nameof(SingleTween.Image));
@@ -138,9 +147,11 @@ namespace GameUtil.Editor
             AddPropertyHeight(property);
             if(!property.isExpanded) return mAllHeight - 2;
             
+            var name = property.FindPropertyRelative("mName");
             var isDelay = property.FindPropertyRelative(nameof(SingleTween.IsDelay));
             var delay = property.FindPropertyRelative(nameof(SingleTween.Delay));
 
+            AddPropertyHeight(name);
             AddPropertyHeight(isDelay);
             if (isDelay.boolValue)
             {

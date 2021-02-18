@@ -460,7 +460,8 @@ MonoBehaviour:
   UpdateType: 0
   IgnoreTimeScale: 1
   StartSingleTweens:
-  - IsDelay: 0
+  - Name: Move1
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -479,6 +480,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 500, y: 500, z: 500}
@@ -488,7 +490,8 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  - IsDelay: 0
+  - Name: Move2
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -507,6 +510,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 1000, y: 1000, z: 1000}
     EndPos: {x: -500, y: -500, z: -500}
@@ -517,7 +521,8 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   CloseSingleTweens:
-  - IsDelay: 0
+  - Name: ImageFade1
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -536,6 +541,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
@@ -545,7 +551,8 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  - IsDelay: 0
+  - Name: ImageFade2
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -564,6 +571,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
@@ -787,7 +795,8 @@ MonoBehaviour:
   UpdateType: 0
   IgnoreTimeScale: 1
   StartSingleTweens:
-  - IsDelay: 0
+  - Name: 
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -806,6 +815,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 1
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
@@ -815,7 +825,8 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  - IsDelay: 1
+  - Name: 
+    IsDelay: 1
     Delay: 1
     Duration: 1
     UseCurve: 0
@@ -834,6 +845,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
@@ -843,7 +855,8 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  - IsDelay: 0
+  - Name: 
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -862,6 +875,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
@@ -984,7 +998,8 @@ MonoBehaviour:
   UpdateType: 0
   IgnoreTimeScale: 1
   StartSingleTweens:
-  - IsDelay: 0
+  - Name: 
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -1003,6 +1018,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 500, y: 500, z: 500}
@@ -1012,7 +1028,8 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  - IsDelay: 1
+  - Name: 
+    IsDelay: 1
     Delay: 1
     Duration: 0
     UseCurve: 0
@@ -1031,6 +1048,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
@@ -1040,7 +1058,8 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  - IsDelay: 0
+  - Name: 
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -1059,6 +1078,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 1
     StartPos: {x: -200, y: -200, z: -200}
     EndPos: {x: 200, y: 200, z: 200}
@@ -1068,7 +1088,8 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  - IsDelay: 0
+  - Name: 
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -1087,6 +1108,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
@@ -1097,7 +1119,8 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0.5
   CloseSingleTweens:
-  - IsDelay: 0
+  - Name: 
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -1116,6 +1139,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
@@ -1305,7 +1329,8 @@ MonoBehaviour:
   UpdateType: 0
   IgnoreTimeScale: 1
   StartSingleTweens:
-  - IsDelay: 0
+  - Name: 
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -1324,6 +1349,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 500, y: 500, z: 500}
@@ -1333,7 +1359,8 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  - IsDelay: 1
+  - Name: 
+    IsDelay: 1
     Delay: 1
     Duration: 0
     UseCurve: 0
@@ -1352,6 +1379,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
@@ -1361,7 +1389,8 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  - IsDelay: 0
+  - Name: 
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -1380,6 +1409,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 1
     StartPos: {x: -200, y: -200, z: -200}
     EndPos: {x: 200, y: 200, z: 200}
@@ -1389,7 +1419,8 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0
-  - IsDelay: 0
+  - Name: 
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -1408,6 +1439,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
@@ -1417,7 +1449,8 @@ MonoBehaviour:
     EndScale: {x: 0, y: 0, z: 0}
     StartAlpha: 0
     EndAlpha: 0.5
-  - IsDelay: 0
+  - Name: 
+    IsDelay: 0
     Delay: 0
     Duration: 0
     UseCurve: 0
@@ -1436,6 +1469,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}
@@ -1446,7 +1480,8 @@ MonoBehaviour:
     StartAlpha: 0
     EndAlpha: 0
   CloseSingleTweens:
-  - IsDelay: 0
+  - Name: 
+    IsDelay: 0
     Delay: 0
     Duration: 1
     UseCurve: 0
@@ -1465,6 +1500,7 @@ MonoBehaviour:
     Text: {fileID: 0}
     TextMeshProUGUI: {fileID: 0}
     CanvasGroup: {fileID: 0}
+    RectTransform: {fileID: 0}
     OverrideStartStatus: 0
     StartPos: {x: 0, y: 0, z: 0}
     EndPos: {x: 0, y: 0, z: 0}

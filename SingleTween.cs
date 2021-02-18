@@ -28,6 +28,10 @@ namespace GameUtil
             Insert
         }
 
+#if UNITY_EDITOR
+        //Only for editor display
+        [SerializeField] private string Name;
+#endif
         [Tooltip("Special. Do nothing except delay")]
         public bool IsDelay;
         public float Delay;
