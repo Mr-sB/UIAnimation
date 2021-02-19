@@ -194,7 +194,7 @@ namespace GameUtil.Editor
             AddPropertyHeight(property);
             if(!property.isExpanded) return mAllHeight - 2;
             
-            var name = property.FindPropertyRelative("mName");
+            var name = property.FindPropertyRelative("Name");
             var isDelay = property.FindPropertyRelative(nameof(SingleTween.IsDelay));
             var delay = property.FindPropertyRelative(nameof(SingleTween.Delay));
 
