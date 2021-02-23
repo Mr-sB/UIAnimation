@@ -7,7 +7,7 @@ namespace GameUtil
 {
     public class UIDOTween : MonoBehaviour
     {
-        private enum TweenStatus
+        public enum TweenStatus
         {
             None,
             Start,
@@ -26,7 +26,7 @@ namespace GameUtil
         [Tooltip("关闭界面动画结束时调用")] public UnityEvent OnCloseAfterAnim;
         
         private Sequence mSequence;
-        private TweenStatus mTweenStatus = TweenStatus.None;
+        public TweenStatus Status { private set; get; } = TweenStatus.None;
         
         private void Awake()
         {
@@ -46,13 +46,13 @@ namespace GameUtil
         public void DoStartTween(Action action)
         {
             RecoverStatus();
-            mTweenStatus = TweenStatus.Start;
+            Status = TweenStatus.Start;
             DoTweenInternal(StartSingleTweens, OnStartBeforeAnim, OnStartAfterAnim, action);
         }
 
         public void DoCloseTween(Action action)
         {
-            mTweenStatus = TweenStatus.Close;
+            Status = TweenStatus.Close;
             DoTweenInternal(CloseSingleTweens, OnCloseBeforeAnim, OnCloseAfterAnim, action);
         }
         
@@ -131,14 +131,14 @@ namespace GameUtil
                 mSequence.OnComplete(() =>
                 {
                     mSequence = null;
-                    mTweenStatus = TweenStatus.None;
+                    Status = TweenStatus.None;
                     afterEvent?.Invoke();
                     action?.Invoke();
                 });
             }
             else
             {
-                mTweenStatus = TweenStatus.None;
+                Status = TweenStatus.None;
                 afterEvent?.Invoke();
                 action?.Invoke();
             }
@@ -147,7 +147,7 @@ namespace GameUtil
         /// <param name="recalculation">whether recalculate duration</param>
         public float GetStartDuration(bool recalculation = false)
         {
-            if(!recalculation && mSequence != null && mTweenStatus == TweenStatus.Start)
+            if(!recalculation && mSequence != null && Status == TweenStatus.Start)
                 return mSequence.Duration(false);
             return GetDuration(StartSingleTweens);
         }
@@ -155,7 +155,7 @@ namespace GameUtil
         /// <param name="recalculation">whether recalculate duration</param>
         public float GetCloseDuration(bool recalculation = false)
         {
-            if(!recalculation && mSequence != null && mTweenStatus == TweenStatus.Close)
+            if(!recalculation && mSequence != null && Status == TweenStatus.Close)
                 return mSequence.Duration(false);
             return GetDuration(CloseSingleTweens);
         }
