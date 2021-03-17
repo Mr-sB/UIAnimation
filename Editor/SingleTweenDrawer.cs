@@ -64,21 +64,7 @@ namespace GameUtil.Editor
                     var curve = property.FindPropertyRelative(nameof(SingleTween.Curve));
                     var easeType = property.FindPropertyRelative(nameof(SingleTween.EaseType));
                     var mode = property.FindPropertyRelative(nameof(SingleTween.Mode));
-                    var transform = property.FindPropertyRelative(nameof(SingleTween.Transform));
-                    var image = property.FindPropertyRelative(nameof(SingleTween.Image));
-                    var text = property.FindPropertyRelative(nameof(SingleTween.Text));
-                    var textMeshProUGUI = property.FindPropertyRelative(nameof(SingleTween.TextMeshProUGUI));
-                    var canvasGroup = property.FindPropertyRelative(nameof(SingleTween.CanvasGroup));
-                    var rectTransform = property.FindPropertyRelative(nameof(SingleTween.RectTransform));
                     var overrideStartStatus = property.FindPropertyRelative(nameof(SingleTween.OverrideStartStatus));
-                    var startPos = property.FindPropertyRelative(nameof(SingleTween.StartPos));
-                    var endPos = property.FindPropertyRelative(nameof(SingleTween.EndPos));
-                    var startRotation = property.FindPropertyRelative(nameof(SingleTween.StartRotation));
-                    var endRotation = property.FindPropertyRelative(nameof(SingleTween.EndRotation));
-                    var startScale = property.FindPropertyRelative(nameof(SingleTween.StartScale));
-                    var endScale = property.FindPropertyRelative(nameof(SingleTween.EndScale));
-                    var startAlpha = property.FindPropertyRelative(nameof(SingleTween.StartAlpha));
-                    var endAlpha = property.FindPropertyRelative(nameof(SingleTween.EndAlpha));
 
                     PropertyField(duration);
                     PropertyField(useCurve);
@@ -93,6 +79,8 @@ namespace GameUtil.Editor
                     //Change TweenType, maybe need clear or parse component.
                     if (curTweenType != oldTweenType)
                     {
+                        var transform = property.FindPropertyRelative(nameof(SingleTween.Transform));
+                        var rectTransform = property.FindPropertyRelative(nameof(SingleTween.RectTransform));
                         switch (oldTweenType)
                         {
                             case SingleTween.TweenType.Move:
@@ -113,16 +101,16 @@ namespace GameUtil.Editor
                                 transform.objectReferenceValue = null;
                                 break;
                             case SingleTween.TweenType.Image:
-                                image.objectReferenceValue = null;
+                                property.FindPropertyRelative(nameof(SingleTween.Image)).objectReferenceValue = null;
                                 break;
                             case SingleTween.TweenType.Text:
-                                text.objectReferenceValue = null;
+                                property.FindPropertyRelative(nameof(SingleTween.Text)).objectReferenceValue = null;
                                 break;
                             case SingleTween.TweenType.TextMeshProUGUI:
-                                textMeshProUGUI.objectReferenceValue = null;
+                                property.FindPropertyRelative(nameof(SingleTween.TextMeshProUGUI)).objectReferenceValue = null;
                                 break;
                             case SingleTween.TweenType.Canvas:
-                                canvasGroup.objectReferenceValue = null;
+                                property.FindPropertyRelative(nameof(SingleTween.CanvasGroup)).objectReferenceValue = null;
                                 break;
                             case SingleTween.TweenType.AnchorPos3D:
                                 //Parse
@@ -137,28 +125,28 @@ namespace GameUtil.Editor
                     switch ((SingleTween.TweenType) mode.intValue)
                     {
                         case SingleTween.TweenType.Move:
-                            DrawTweenType(transform, overrideStartStatus, startPos, endPos);
+                            DrawTweenType(property, nameof(SingleTween.Transform), overrideStartStatus, nameof(SingleTween.StartPos), nameof(SingleTween.EndPos));
                             break;
                         case SingleTween.TweenType.Rotate:
-                            DrawTweenType(transform, overrideStartStatus, startRotation, endRotation);
+                            DrawTweenType(property, nameof(SingleTween.Transform), overrideStartStatus, nameof(SingleTween.StartRotation), nameof(SingleTween.EndRotation));
                             break;
                         case SingleTween.TweenType.Scale:
-                            DrawTweenType(transform, overrideStartStatus, startScale, endScale);
+                            DrawTweenType(property, nameof(SingleTween.Transform), overrideStartStatus, nameof(SingleTween.StartScale), nameof(SingleTween.EndScale));
                             break;
                         case SingleTween.TweenType.Image:
-                            DrawTweenType(image, overrideStartStatus, startAlpha, endAlpha);
+                            DrawTweenType(property, nameof(SingleTween.Image), overrideStartStatus, nameof(SingleTween.StartAlpha), nameof(SingleTween.EndAlpha));
                             break;
                         case SingleTween.TweenType.Text:
-                            DrawTweenType(text, overrideStartStatus, startAlpha, endAlpha);
+                            DrawTweenType(property, nameof(SingleTween.Text), overrideStartStatus, nameof(SingleTween.StartAlpha), nameof(SingleTween.EndAlpha));
                             break;
                         case SingleTween.TweenType.TextMeshProUGUI:
-                            DrawTweenType(textMeshProUGUI, overrideStartStatus, startAlpha, endAlpha);
+                            DrawTweenType(property, nameof(SingleTween.TextMeshProUGUI), overrideStartStatus, nameof(SingleTween.StartAlpha), nameof(SingleTween.EndAlpha));
                             break;
                         case SingleTween.TweenType.Canvas:
-                            DrawTweenType(canvasGroup, overrideStartStatus, startAlpha, endAlpha);
+                            DrawTweenType(property, nameof(SingleTween.CanvasGroup), overrideStartStatus, nameof(SingleTween.StartAlpha), nameof(SingleTween.EndAlpha));
                             break;
                         case SingleTween.TweenType.AnchorPos3D:
-                            DrawTweenType(rectTransform, overrideStartStatus, startPos, endPos);
+                            DrawTweenType(property, nameof(SingleTween.RectTransform), overrideStartStatus, nameof(SingleTween.StartPos), nameof(SingleTween.EndPos));
                             break;
                     }
 
@@ -226,60 +214,43 @@ namespace GameUtil.Editor
                     var curve = property.FindPropertyRelative(nameof(SingleTween.Curve));
                     var easeType = property.FindPropertyRelative(nameof(SingleTween.EaseType));
                     var itemLinkType = property.FindPropertyRelative(nameof(SingleTween.ItemLinkType));
-                    var atPosition = property.FindPropertyRelative(nameof(SingleTween.AtPosition));
                     var mode = property.FindPropertyRelative(nameof(SingleTween.Mode));
-                    var transform = property.FindPropertyRelative(nameof(SingleTween.Transform));
-                    var image = property.FindPropertyRelative(nameof(SingleTween.Image));
-                    var text = property.FindPropertyRelative(nameof(SingleTween.Text));
-                    var textMeshProUGUI = property.FindPropertyRelative(nameof(SingleTween.TextMeshProUGUI));
-                    var canvasGroup = property.FindPropertyRelative(nameof(SingleTween.CanvasGroup));
-                    var rectTransform = property.FindPropertyRelative(nameof(SingleTween.RectTransform));
                     var overrideStartStatus = property.FindPropertyRelative(nameof(SingleTween.OverrideStartStatus));
-                    var startPos = property.FindPropertyRelative(nameof(SingleTween.StartPos));
-                    var endPos = property.FindPropertyRelative(nameof(SingleTween.EndPos));
-                    var startRotation = property.FindPropertyRelative(nameof(SingleTween.StartRotation));
-                    var endRotation = property.FindPropertyRelative(nameof(SingleTween.EndRotation));
-                    var startScale = property.FindPropertyRelative(nameof(SingleTween.StartScale));
-                    var endScale = property.FindPropertyRelative(nameof(SingleTween.EndScale));
-                    var startAlpha = property.FindPropertyRelative(nameof(SingleTween.StartAlpha));
-                    var endAlpha = property.FindPropertyRelative(nameof(SingleTween.EndAlpha));
 
                     AddPropertyHeight(duration);
                     AddPropertyHeight(useCurve);
                     AddPropertyHeight(useCurve.boolValue ? curve : easeType);
                     AddPropertyHeight(itemLinkType);
                     if ((SingleTween.LinkType) itemLinkType.intValue == SingleTween.LinkType.Insert)
-                    {
-                        AddPropertyHeight(atPosition);
-                    }
+                        AddPropertyHeight(property.FindPropertyRelative(nameof(SingleTween.AtPosition)));
 
                     AddPropertyHeight(mode);
 
                     switch ((SingleTween.TweenType) mode.intValue)
                     {
                         case SingleTween.TweenType.Move:
-                            AddTweenType(transform, overrideStartStatus, startPos, endPos);
+                            AddTweenType(property, nameof(SingleTween.Transform), overrideStartStatus, nameof(SingleTween.StartPos), nameof(SingleTween.EndPos));
                             break;
                         case SingleTween.TweenType.Rotate:
-                            AddTweenType(transform, overrideStartStatus, startRotation, endRotation);
+                            AddTweenType(property, nameof(SingleTween.Transform), overrideStartStatus, nameof(SingleTween.StartRotation), nameof(SingleTween.EndRotation));
                             break;
                         case SingleTween.TweenType.Scale:
-                            AddTweenType(transform, overrideStartStatus, startScale, endScale);
+                            AddTweenType(property, nameof(SingleTween.Transform), overrideStartStatus, nameof(SingleTween.StartScale), nameof(SingleTween.EndScale));
                             break;
                         case SingleTween.TweenType.Image:
-                            AddTweenType(image, overrideStartStatus, startAlpha, endAlpha);
+                            AddTweenType(property, nameof(SingleTween.Image), overrideStartStatus, nameof(SingleTween.StartAlpha), nameof(SingleTween.EndAlpha));
                             break;
                         case SingleTween.TweenType.Text:
-                            AddTweenType(text, overrideStartStatus, startAlpha, endAlpha);
+                            AddTweenType(property, nameof(SingleTween.Text), overrideStartStatus, nameof(SingleTween.StartAlpha), nameof(SingleTween.EndAlpha));
                             break;
                         case SingleTween.TweenType.TextMeshProUGUI:
-                            AddTweenType(textMeshProUGUI, overrideStartStatus, startAlpha, endAlpha);
+                            AddTweenType(property, nameof(SingleTween.TextMeshProUGUI), overrideStartStatus, nameof(SingleTween.StartAlpha), nameof(SingleTween.EndAlpha));
                             break;
                         case SingleTween.TweenType.Canvas:
-                            AddTweenType(canvasGroup, overrideStartStatus, startAlpha, endAlpha);
+                            AddTweenType(property, nameof(SingleTween.CanvasGroup), overrideStartStatus, nameof(SingleTween.StartAlpha), nameof(SingleTween.EndAlpha));
                             break;
                         case SingleTween.TweenType.AnchorPos3D:
-                            AddTweenType(rectTransform, overrideStartStatus, startPos, endPos);
+                            AddTweenType(property, nameof(SingleTween.RectTransform), overrideStartStatus, nameof(SingleTween.StartPos), nameof(SingleTween.EndPos));
                             break;
                     }
 
@@ -303,22 +274,22 @@ namespace GameUtil.Editor
             return mAllHeight - 2;
         }
 
-        private void DrawTweenType(SerializedProperty component, SerializedProperty overrideStartStatus, SerializedProperty start, SerializedProperty end)
+        private void DrawTweenType(SerializedProperty property, string component, SerializedProperty overrideStartStatus, string start, string end)
         {
-            PropertyField(component);
+            PropertyField(property.FindPropertyRelative(component));
             PropertyField(overrideStartStatus);
             if (overrideStartStatus.boolValue)
-                PropertyField(start);
-            PropertyField(end);
+                PropertyField(property.FindPropertyRelative(start));
+            PropertyField(property.FindPropertyRelative(end));
         }
         
-        private void AddTweenType(SerializedProperty component, SerializedProperty overrideStartStatus, SerializedProperty start, SerializedProperty end)
+        private void AddTweenType(SerializedProperty property, string component, SerializedProperty overrideStartStatus, string start, string end)
         {
-            AddPropertyHeight(component);
+            AddPropertyHeight(property.FindPropertyRelative(component));
             AddPropertyHeight(overrideStartStatus);
             if (overrideStartStatus.boolValue)
-                AddPropertyHeight(start);
-            AddPropertyHeight(end);
+                AddPropertyHeight(property.FindPropertyRelative(start));
+            AddPropertyHeight(property.FindPropertyRelative(end));
         }
         
         
