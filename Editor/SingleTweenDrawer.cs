@@ -30,10 +30,10 @@ namespace GameUtil.Editor
             switch (itemType)
             {
                 case SingleTween.ItemType.Tweener:
-                    shortDes += $"{linkType}{(linkType == SingleTween.LinkType.Insert ? " at: " + atPosition.floatValue : "")} duration:{duration.floatValue}";
+                    shortDes += $"{linkType}{(linkType == SingleTween.LinkType.Insert ? " at: " + atPosition.floatValue : "")} duration: {duration.floatValue}";
                     break;
                 case SingleTween.ItemType.Delay:
-                    shortDes += $"duration:{duration.floatValue}";
+                    shortDes += $"duration: {duration.floatValue}";
                     break;
                 case SingleTween.ItemType.Callback:
                     shortDes += $"{linkType}{(linkType == SingleTween.LinkType.Insert ? " at: " + atPosition.floatValue : "")}";
