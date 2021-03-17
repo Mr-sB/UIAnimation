@@ -20,10 +20,10 @@ namespace GameUtil
         public SingleTween[] StartSingleTweens = new SingleTween[0];
         public SingleTween[] CloseSingleTweens = new SingleTween[0];
 
-        [Tooltip("打开界面时调用")] public UnityEvent OnStartBeforeAnim;
-        [Tooltip("关闭界面时调用")] public UnityEvent OnCloseBeforeAnim;
-        [Tooltip("打开界面动画结束时调用")] public UnityEvent OnStartAfterAnim;
-        [Tooltip("关闭界面动画结束时调用")] public UnityEvent OnCloseAfterAnim;
+        public UnityEvent OnStartBeforeAnim;
+        public UnityEvent OnCloseBeforeAnim;
+        public UnityEvent OnStartAfterAnim;
+        public UnityEvent OnCloseAfterAnim;
         
         private Sequence mSequence;
         public TweenStatus Status { private set; get; } = TweenStatus.None;
@@ -80,52 +80,79 @@ namespace GameUtil
                 mSequence = DOTween.Sequence().SetUpdate(UpdateType, IgnoreTimeScale);
                 foreach (var tween in tweens)
                 {
-                    if (tween.IsDelay)
+                    switch (tween.AddItemType)
                     {
-                        if (tween.Delay > 0)
-                            mSequence.AppendInterval(tween.Delay);
-                    }
-                    else
-                    {
-                        if(!tween.IsValid) continue;
-                        switch (tween.TweenerLinkType)
-                        {
-                            case SingleTween.LinkType.Append:
-                                lastTweenInsertTime = mSequence.Duration(false);
-                                needCallImmediately = lastTweenInsertTime < 1e-4;
-                                if (tween.OverrideStartStatus)
-                                {
-                                    if (needCallImmediately)
-                                        tween.SetStartStatus();
-                                    else
-                                        mSequence.AppendCallback(tween.SetStartStatus);
-                                }
+                        case SingleTween.ItemType.Tweener:
+                            if(!tween.IsValid) continue;
+                            switch (tween.ItemLinkType)
+                            {
+                                case SingleTween.LinkType.Append:
+                                    lastTweenInsertTime = mSequence.Duration(false);
+                                    needCallImmediately = lastTweenInsertTime < 1e-4;
+                                    if (tween.OverrideStartStatus)
+                                    {
+                                        if (needCallImmediately)
+                                            tween.SetStartStatus();
+                                        else
+                                            mSequence.AppendCallback(tween.SetStartStatus);
+                                    }
 
-                                mSequence.Append(tween.BuildTween());
-                                break;
-                            case SingleTween.LinkType.Join:
-                                if (tween.OverrideStartStatus)
-                                {
-                                    if (needCallImmediately)
-                                        tween.SetStartStatus();
-                                    else
-                                        mSequence.InsertCallback(lastTweenInsertTime, tween.SetStartStatus);
-                                }
-                                mSequence.Join(tween.BuildTween());
-                                break;
-                            case SingleTween.LinkType.Insert:
-                                lastTweenInsertTime = tween.AtPosition;
-                                needCallImmediately = lastTweenInsertTime < 1e-4;
-                                if (tween.OverrideStartStatus)
-                                {
-                                    if (needCallImmediately)
-                                        tween.SetStartStatus();
-                                    else
-                                        mSequence.InsertCallback(lastTweenInsertTime, tween.SetStartStatus);
-                                }
-                                mSequence.Insert(lastTweenInsertTime, tween.BuildTween());
-                                break;
-                        }
+                                    mSequence.Append(tween.BuildTween());
+                                    break;
+                                case SingleTween.LinkType.Join:
+                                    if (tween.OverrideStartStatus)
+                                    {
+                                        if (needCallImmediately)
+                                            tween.SetStartStatus();
+                                        else
+                                            mSequence.InsertCallback(lastTweenInsertTime, tween.SetStartStatus);
+                                    }
+
+                                    mSequence.Join(tween.BuildTween());
+                                    break;
+                                case SingleTween.LinkType.Insert:
+                                    lastTweenInsertTime = tween.AtPosition;
+                                    needCallImmediately = lastTweenInsertTime < 1e-4;
+                                    if (tween.OverrideStartStatus)
+                                    {
+                                        if (needCallImmediately)
+                                            tween.SetStartStatus();
+                                        else
+                                            mSequence.InsertCallback(lastTweenInsertTime, tween.SetStartStatus);
+                                    }
+
+                                    mSequence.Insert(lastTweenInsertTime, tween.BuildTween());
+                                    break;
+                                default:
+                                    Debug.LogError("LinkType does not contain an enumeration of this type: " + (int)tween.ItemLinkType);
+                                    break;
+                            }
+                            break;
+                        case SingleTween.ItemType.Delay:
+                            if (tween.Duration > 0)
+                                mSequence.AppendInterval(tween.Duration);
+                            break;
+                        case SingleTween.ItemType.Callback:
+                            //Callback will not change lastTweenInsertTime!
+                            switch (tween.ItemLinkType)
+                            {
+                                case SingleTween.LinkType.Append:
+                                    mSequence.AppendCallback(tween.InvokeCallback);
+                                    break;
+                                case SingleTween.LinkType.Join:
+                                    mSequence.InsertCallback(lastTweenInsertTime, tween.InvokeCallback);
+                                    break;
+                                case SingleTween.LinkType.Insert:
+                                    mSequence.InsertCallback(tween.AtPosition, tween.InvokeCallback);
+                                    break;
+                                default:
+                                    Debug.LogError("LinkType does not contain an enumeration of this type: " + (int)tween.ItemLinkType);
+                                    break;
+                            }
+                            break;
+                        default:
+                            Debug.LogError("ItemType does not contain an enumeration of this type: " + (int)tween.AddItemType);
+                            break;
                     }
                 }
                 mSequence.OnComplete(() =>
@@ -167,29 +194,45 @@ namespace GameUtil
             float lastTweenInsertTime = 0;
             foreach (var tween in tweens)
             {
-                if (tween.IsDelay)
+                switch (tween.AddItemType)
                 {
-                    if (tween.Delay > 0)
-                        duration += tween.Delay;
-                }
-                else
-                {
-                    if (!tween.IsValid) continue;
-                    switch (tween.TweenerLinkType)
-                    {
-                        case SingleTween.LinkType.Append:
-                            lastTweenInsertTime = duration;
+                    case SingleTween.ItemType.Tweener:
+                        if (!tween.IsValid) continue;
+                        switch (tween.ItemLinkType)
+                        {
+                            case SingleTween.LinkType.Append:
+                                lastTweenInsertTime = duration;
+                                duration += tween.Duration;
+                                break;
+                            case SingleTween.LinkType.Insert:
+                                lastTweenInsertTime = tween.AtPosition;
+                                goto case SingleTween.LinkType.Join;
+                            case SingleTween.LinkType.Join:
+                                float newDuration = lastTweenInsertTime + tween.Duration;
+                                if (newDuration > duration)
+                                    duration = newDuration;
+                                break;
+                            default:
+                                Debug.LogError("LinkType does not contain an enumeration of this type: " + (int)tween.ItemLinkType);
+                                break;
+                        }
+                        break;
+                    case SingleTween.ItemType.Delay:
+                        if (tween.Duration > 0)
                             duration += tween.Duration;
-                            break;
-                        case SingleTween.LinkType.Insert:
-                            lastTweenInsertTime = tween.AtPosition;
-                            goto case SingleTween.LinkType.Join;
-                        case SingleTween.LinkType.Join:
-                            float newDuration = lastTweenInsertTime + tween.Duration;
+                        break;
+                    case SingleTween.ItemType.Callback:
+                        //For callback, only Insert maybe change duration.
+                        if (tween.ItemLinkType == SingleTween.LinkType.Insert)
+                        {
+                            float newDuration = tween.AtPosition;
                             if (newDuration > duration)
                                 duration = newDuration;
-                            break;
-                    }
+                        }
+                        break;
+                    default:
+                        Debug.LogError("ItemType does not contain an enumeration of this type: " + (int)tween.AddItemType);
+                        break;
                 }
             }
             return duration;

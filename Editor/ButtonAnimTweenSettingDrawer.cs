@@ -11,7 +11,7 @@ namespace GameUtil.Editor
         {
             Init(position);
 
-            if (!PropertyField(property, label, false)) return;
+            if (!PropertyField(property, label)) return;
 
             var duration = property.FindPropertyRelative(nameof(ButtonAnim.TweenSetting.Duration));
             var useCurve = property.FindPropertyRelative(nameof(ButtonAnim.TweenSetting.UseCurve));

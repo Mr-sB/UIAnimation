@@ -2,6 +2,8 @@ using DG.Tweening;
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace GameUtil
@@ -9,6 +11,13 @@ namespace GameUtil
     [Serializable]
     public class SingleTween
     {
+        public enum ItemType
+        {
+            Tweener,
+            Delay,
+            Callback
+        }
+        
         public enum TweenType
         {
             Move,
@@ -31,18 +40,23 @@ namespace GameUtil
 #if UNITY_EDITOR
         //Only for editor display
         [SerializeField] private string Name;
-        [SerializeField] private bool HideButton;
 #endif
-        [Tooltip("Special. Do nothing except delay")]
-        public bool IsDelay;
-        public float Delay;
+        public ItemType AddItemType;
+        //Tweener/Delay
         public float Duration;
+        //Tweener
         public bool UseCurve;
         public AnimationCurve Curve = AnimationCurve.Linear(0, 0, 1, 1);
         public Ease EaseType = Ease.OutQuad;
-        public LinkType TweenerLinkType;
+        //Tweener/Callback
+        [FormerlySerializedAs("TweenerLinkType")]
+        public LinkType ItemLinkType;
         public float AtPosition;
+        //Tweener
         public TweenType Mode;
+        //Callback
+        public UnityEvent Callback;
+        
         //Component
         public Transform Transform;
         public Image Image;
@@ -73,7 +87,7 @@ namespace GameUtil
         public void Bind(GameObject go)
         {
             IsValid = true;
-            if (IsDelay) return;
+            if (AddItemType != ItemType.Tweener) return;
             switch (Mode)
             {
                 case TweenType.Move:
@@ -161,7 +175,7 @@ namespace GameUtil
 
         public void SetStartStatus()
         {
-            if (IsDelay || !IsValid || !OverrideStartStatus) return;
+            if (AddItemType != ItemType.Tweener || !IsValid || !OverrideStartStatus) return;
             switch (Mode)
             {
                 case TweenType.Move:
@@ -202,7 +216,7 @@ namespace GameUtil
         
         public Tweener BuildTween()
         {
-            if (IsDelay || !IsValid) return null;
+            if (AddItemType != ItemType.Tweener || !IsValid) return null;
             Tweener result;
             switch (Mode)
             {
@@ -251,7 +265,7 @@ namespace GameUtil
 
         public void RecoverStatus()
         {
-            if (IsDelay || !IsValid) return;
+            if (AddItemType != ItemType.Tweener || !IsValid) return;
             switch (Mode)
             {
                 case TweenType.Move:
@@ -284,9 +298,15 @@ namespace GameUtil
             }
         }
 
+        public void InvokeCallback()
+        {
+            if (AddItemType != ItemType.Callback) return;
+            Callback?.Invoke();
+        }
+
         public void CopyStartStatus(GameObject go)
         {
-            if (IsDelay || !OverrideStartStatus)
+            if (AddItemType != ItemType.Tweener || !OverrideStartStatus)
             {
                 Debug.LogWarning("No need Copy Start Status From Component.");
                 return;
@@ -372,7 +392,7 @@ namespace GameUtil
 
         public void PasteStartStatus(GameObject go)
         {
-            if (IsDelay || !OverrideStartStatus)
+            if (AddItemType != ItemType.Tweener || !OverrideStartStatus)
             {
                 Debug.LogWarning("Can not Paste Start Status To Component.");
                 return;
@@ -494,7 +514,7 @@ namespace GameUtil
         
         public void CopyEndStatus(GameObject go)
         {
-            if (IsDelay)
+            if (AddItemType != ItemType.Tweener)
             {
                 Debug.LogWarning("No need Copy End Status From Component.");
                 return;
@@ -580,7 +600,7 @@ namespace GameUtil
 
         public void PasteEndStatus(GameObject go)
         {
-            if (IsDelay)
+            if (AddItemType != ItemType.Tweener)
             {
                 Debug.LogWarning("Can not Paste End Status To Component.");
                 return;

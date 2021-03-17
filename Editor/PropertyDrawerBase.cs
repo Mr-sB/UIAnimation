@@ -33,7 +33,7 @@ namespace GameUtil.Editor
             return EditorGUI.PropertyField(GetPropertyRect(property, includeChildren), property, includeChildren);
         }
         
-        protected bool PropertyField(SerializedProperty property, GUIContent label, bool includeChildren)
+        protected bool PropertyField(SerializedProperty property, GUIContent label, bool includeChildren = false)
         {
             return EditorGUI.PropertyField(GetPropertyRect(property, includeChildren), property, label, includeChildren);
         }
