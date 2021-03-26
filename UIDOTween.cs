@@ -133,16 +133,18 @@ namespace GameUtil
                                 mSequence.AppendInterval(tween.Duration);
                             break;
                         case SingleTween.ItemType.Callback:
-                            //Callback will not change lastTweenInsertTime!
+                            //Callback also will change lastTweenInsertTime
                             switch (tween.ItemLinkType)
                             {
                                 case SingleTween.LinkType.Append:
+                                    lastTweenInsertTime = mSequence.Duration(false);
                                     mSequence.AppendCallback(tween.InvokeCallback);
                                     break;
                                 case SingleTween.LinkType.Join:
                                     mSequence.InsertCallback(lastTweenInsertTime, tween.InvokeCallback);
                                     break;
                                 case SingleTween.LinkType.Insert:
+                                    lastTweenInsertTime = tween.AtPosition;
                                     mSequence.InsertCallback(tween.AtPosition, tween.InvokeCallback);
                                     break;
                                 default:
@@ -223,11 +225,22 @@ namespace GameUtil
                         break;
                     case SingleTween.ItemType.Callback:
                         //For callback, only Insert maybe change duration.
-                        if (tween.ItemLinkType == SingleTween.LinkType.Insert)
+                        switch (tween.ItemLinkType)
                         {
-                            float newDuration = tween.AtPosition;
-                            if (newDuration > duration)
-                                duration = newDuration;
+                            case SingleTween.LinkType.Append:
+                                lastTweenInsertTime = duration;
+                                duration += tween.Duration;
+                                break;
+                            case SingleTween.LinkType.Insert:
+                                lastTweenInsertTime = tween.AtPosition;
+                                if (lastTweenInsertTime > duration)
+                                    duration = lastTweenInsertTime;
+                                break;
+                            case SingleTween.LinkType.Join:
+                                break;
+                            default:
+                                Debug.LogError("LinkType does not contain an enumeration of this type: " + (int)tween.ItemLinkType);
+                                break;
                         }
                         break;
                     default:
