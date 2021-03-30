@@ -229,7 +229,6 @@ namespace GameUtil
                         {
                             case SingleTween.LinkType.Append:
                                 lastTweenInsertTime = duration;
-                                duration += tween.Duration;
                                 break;
                             case SingleTween.LinkType.Insert:
                                 lastTweenInsertTime = tween.AtPosition;
