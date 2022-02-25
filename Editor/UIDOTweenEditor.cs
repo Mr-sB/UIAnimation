@@ -7,8 +7,7 @@ namespace GameUtil.Editor
     [CustomEditor(typeof(UIDOTween)), CanEditMultipleObjects]
     public class UIDOTweenEditor : UnityEditor.Editor
     {
-        private const float ELEMENT_OFFSET_XMIN = 7;
-        private const float ELEMENT_OFFSET_XMAX = 2;
+        private const float ELEMENT_OFFSET_X = 7;
 
         private const float ELEMENT_OFFSET_Y =
 #if UNITY_2020_1_OR_NEWER
@@ -32,8 +31,8 @@ namespace GameUtil.Editor
             };
             mStartSingleTweenReorderableList.drawElementCallback = (rect, index, active, focused) =>
             {
-                rect.x += ELEMENT_OFFSET_XMIN;
-                rect.width -= ELEMENT_OFFSET_XMIN + ELEMENT_OFFSET_XMAX;
+                rect.x += ELEMENT_OFFSET_X;
+                rect.width -= ELEMENT_OFFSET_X;
                 rect.y += ELEMENT_OFFSET_Y;
                 EditorGUI.PropertyField(rect, mStartSingleTweenReorderableList.serializedProperty.GetArrayElementAtIndex(index));
             };
@@ -49,8 +48,8 @@ namespace GameUtil.Editor
             };
             mCloseSingleTweenReorderableList.drawElementCallback = (rect, index, active, focused) =>
             {
-                rect.x += ELEMENT_OFFSET_XMIN;
-                rect.width -= ELEMENT_OFFSET_XMIN + ELEMENT_OFFSET_XMAX;
+                rect.x += ELEMENT_OFFSET_X;
+                rect.width -= ELEMENT_OFFSET_X;
                 rect.y += ELEMENT_OFFSET_Y;
                 EditorGUI.PropertyField(rect, mCloseSingleTweenReorderableList.serializedProperty.GetArrayElementAtIndex(index));
             };
